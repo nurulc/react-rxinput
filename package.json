@@ -1,0 +1,44 @@
+{
+  "name": "react-rxinput",
+  "version": "1.0.0",
+  "description": "react-rxinput React component",
+  "main": "lib/index.js",
+  "jsnext:main": "es6/index.js",
+  "files": [
+    "css",
+    "es6",
+    "lib",
+    "umd"
+  ],
+  "scripts": {
+    "build": "nwb build",
+    "clean": "nwb clean",
+    "start": "nwb serve",
+    "test": "nwb test",
+    "test:watch": "nwb test --server"
+  },
+  "dependencies": {
+    "incr-regex-package": "C:/Users/choudnu/Downloads/projects/incr-regex-package",
+    "react-bootstrap": "^0.30.2"
+  },
+  "peerDependencies": {
+    "react": "15.x"
+  },
+  "devDependencies": {
+    "nwb": "0.11.x",
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0"
+  },
+  "author": "Nurul Choudhury",
+  "license": "ISC",
+  "homepage": "",
+  "repository": "",
+  "keywords": [
+    "react-component",
+    "regular-expression",
+    "dynamic",
+    "incremental",
+    "validation",
+    "input"
+  ]
+}
