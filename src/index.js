@@ -79,7 +79,7 @@ const mapImg = {
 
 
 
-export default RxInput = React.createClass({
+const RxInput = React.createClass({
   propTypes: {
     mask: React.PropTypes.object.isRequired,
   },
@@ -328,3 +328,4 @@ export default RxInput = React.createClass({
     return    inputField;
   }
 });
+module.exports = RxInput;

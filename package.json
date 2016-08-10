@@ -32,7 +32,11 @@
   "author": "Nurul Choudhury",
   "license": "ISC",
   "homepage": "",
-  "repository": "",
+  
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nurulc/react-rxinput.git"
+  }, 
   "keywords": [
     "react-component",
     "regular-expression",

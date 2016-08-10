@@ -1,0 +1,85 @@
+body {
+/*  box-sizing: border-box; 
+  width: 550px;
+  margin: 1em auto;
+  padding: 0 1em; */
+  font-family: sans-serif;
+} 
+code {
+  font-size: 1.3em;
+}
+.small-text {
+  font-size: 0.75em;
+  color: blue;
+}
+h1 {
+  font-size: 3em;
+ /* text-align: center;*/
+  margin-top: 0;
+}
+p.lead {
+  font-weight: bold;
+  /*text-align: center;*/
+}
+hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 0;
+  border-top: 1px solid #222;
+}
+.form-field {
+  margin-bottom: .5em;
+}
+
+div.done {
+    display: inline-block;
+    position: relative;
+    width: 5px;
+    height: 20px;
+    background-image: "ok.png";
+    background-color: green;
+    margin-top: 0px;    
+}
+
+div.more {
+    display: inline-block;
+    position: relative;
+    width: 5px;
+    height: 20px;
+    background-image: "ok.png";
+    background-color: red;
+    padding-top: -5px;
+}
+
+div.ok {
+    display: inline-block;
+    position: relative;
+    width: 5px;
+    height: 20px;
+    background-image: "ok.png";
+    background-color: olive;
+    margin-top: -5px;
+}
+
+p.form-field {
+  padding-top: 10px;
+  margin-bottom: -0.5em;
+  text-indent: 130px;
+}
+label {
+  display: inline-block;
+  width: 7em;
+  text-align: right;
+  margin-right: .75em;
+}
+input {
+  border: solid 1px #333;
+
+  border-radius: 4px;
+  font-size: 1em;
+  text-align: top;
+  margin: 3px;
+}
+footer {
+  text-align: center;
+}
