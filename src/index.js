@@ -29,8 +29,7 @@ import React from 'react'
 
 import { Popover,OverlayTrigger } from 'react-bootstrap';
 import {getSelection, setSelection} from 'react/lib/ReactInputSelection';
-import RX from 'incr-regex-package';
-
+const RX = require("incr-regex-package");
 
 const KEYCODE_Z = 90
 const KEYCODE_Y = 89

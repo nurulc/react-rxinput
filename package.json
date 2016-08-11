@@ -1,7 +1,7 @@
 {
   "name": "react-rxinput",
   "version": "1.0.0",
-  "description": "react-rxinput React component",
+  "description": "react-rxinput React component, extends <input> element to validate against a regular expression as you type input (incremental regex matcher)",
   "main": "lib/index.js",
   "jsnext:main": "es6/index.js",
   "files": [
@@ -18,13 +18,14 @@
     "test:watch": "nwb test --server"
   },
   "dependencies": {
-    "incr-regex-package": "C:/Users/choudnu/Downloads/projects/incr-regex-package",
+    "incr-regex-package": "^0.9.3",
     "react-bootstrap": "^0.30.2"
   },
   "peerDependencies": {
     "react": "15.x"
   },
   "devDependencies": {
+    "html-webpack-plugin": "^2.22.0",
     "nwb": "0.11.x",
     "react": "^15.3.0",
     "react-dom": "^15.3.0"
@@ -32,11 +33,10 @@
   "author": "Nurul Choudhury",
   "license": "ISC",
   "homepage": "",
-  
   "repository": {
     "type": "git",
     "url": "https://github.com/nurulc/react-rxinput.git"
-  }, 
+  },
   "keywords": [
     "react-component",
     "regular-expression",

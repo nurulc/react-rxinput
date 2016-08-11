@@ -1,5 +1,4 @@
 import './style.css'
-import './bootstrap-3.3.5-dist/css/bootstrap.min.css'
 import React from 'react';
 import {render} from 'react-dom';
 
@@ -110,7 +109,7 @@ const App = React.createClass({
     const ext = "( Ext: \\d+)?";
     const phonebase = "(\\+\\d{1,3} )?\\(\\d{3}\\)-\\d{3}-\\d{4}";
     const phone = "Phone: "+phonebase+ext;
-    const hwc_phone = "(Home: |Cell: )" + phonebase + "|Work: "+phonebase+ext;
+    const hwc_phone = new RegExp("(Home: |Cell: )" + phonebase + "|Work: "+phonebase+ext);
     const zip = "Zip: \\d{5}(-\\d{4})?";
     const creditcard = "CC: (\\d{4}-){3}\\d{4} exp: (0\\d|1[012])/\\d{2}";
 
