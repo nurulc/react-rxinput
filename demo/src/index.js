@@ -184,13 +184,14 @@ const App = React.createClass({
 
     const optionalInternationalDialing = "(\\+\\d{1,3} )?";
     const digits3 = "\\d{3}";
-    const areaCode=digits3, exchg = digits3;
+    const areaCode=`\\(${digits3}\\)`, 
+          exchg = digits3;
     const digits4 = "\\d{4}";
     const phonebase = `${optionalInternationalDialing}${areaCode}-${exchg}-${digits4}`;
     const optionalExtension = "( Ext: \\d+)?";             //
     const phone = `Phone: ${phonebase}${optionalExtension}`;
     // or you could write out in full as shown below (if you are couragious)
-    // const phone = "Phone: (\\+\\d{1,3} )?\\d{3}-\\d{3}-\\d{4}( Ext: \\d+)?";
+    // const phone = "Phone: (\\+\\d{1,3} )?\\(\\d{3}\\)-\\d{3}-\\d{4}( Ext: \\d+)?";
 
 
     const hwc_phone = new RegExp(`(Home|Cell): ${phonebase}|Work: ${phonebase}${optionalExtension}`);
