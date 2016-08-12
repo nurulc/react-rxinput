@@ -26,10 +26,11 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 
 import React from 'react'
-
+import except from 'except'
 import { Popover,OverlayTrigger } from 'react-bootstrap';
 import {getSelection, setSelection} from 'react/lib/ReactInputSelection';
 const RX = require("incr-regex-package");
+
 
 const KEYCODE_Z = 90
 const KEYCODE_Y = 89
@@ -76,11 +77,16 @@ const mapImg = {
   "OK": ([<span className="glyphicon glyphicon-option-horizontal form-control-feedback"></span>, ""]),
 };
 
-
+//const LOG = (a, msg='') =>  { console.log(msg+": "+ a); return a; }
+const LOG = x => x;
 
 const RxInput = React.createClass({
   propTypes: {
     mask: React.PropTypes.object.isRequired,
+    name: React.PropTypes.string.isRequired,
+    popover: React.PropTypes.string,
+    selection: React.PropTypes.object,
+    value: React.PropTypes.string,
   },
 
   getDefaultProps() {
@@ -185,7 +191,7 @@ const RxInput = React.createClass({
             this.setState({selection: mask.selection});
             return true;
           };
-     console.log('onKeyDown',mask, asStr(getSelection(this.input))+"/"+asStr(mask.selection), e.key, e.keyCode, e.target.value)
+     //console.log('onKeyDown',mask, asStr(getSelection(this.input))+"/"+asStr(mask.selection), e.key, e.keyCode, e.target.value)
      if(_C(isUndo,()=>mask.undo()) || _C(isRedo,()=>mask.redo()) || 
       _C(isKey("Backspace"),()=>mask.backspace()) || 
       _C(isKey("Delete"),()=>mask.del())) return; 
@@ -252,11 +258,13 @@ const RxInput = React.createClass({
 
 
   _createPopover(valueList,headers, maxWidth) {
-         maxWidth = Math.max(150, maxWidth || 11*Math.max.apply(null, valueList.map( a => a.length )));
+         const strip = s => LOG(s.replace(/\u0332/g,""),"strip:");
+         maxWidth = Math.max(150, maxWidth || 12*Math.max.apply(null, valueList.map( a => Math.min(25,strip(a).length) )));
+         LOG(maxWidth,"MAX WIDTH:");
          const MAXWIDTH = maxWidth || 200;
          const SPANSTYLE = {width: MAXWIDTH-50, maxWidth: MAXWIDTH-50};
          let TS, PADDING;
-         if( valueList.length <= 1 ) return <div />;
+         if( !valueList || valueList.length <= 1 ) return <div />;
          if(valueList.length> 20) {
           TS = {height: "400px", display: "block", overflow: "auto"};
           PADDING =  <div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>;
@@ -267,9 +275,9 @@ const RxInput = React.createClass({
 
             while(i)
               hashVal = (hashVal * 33) ^ str.charCodeAt(--i)
-            return hashVal >>> 0;
+            return (hashVal >>> 0)+12;
          }
-         return (
+         return ( 
                <Popover  id={this.props.name+"myPopover"} className="col-xs-10 col-md-10" style={{width: MAXWIDTH,maxWidth: MAXWIDTH, fontSize: "10px", marginTop: "10px", marginBottom: "10px"}}> 
                     
                     <table key={this.props.name+"myPopover1"} className="table-responsive table-striped table-hover table-condensed col-xs-10 col-md-10" style={SPANSTYLE}>
@@ -277,22 +285,26 @@ const RxInput = React.createClass({
                             <tr>{headers.map((e) => (<th key={this.props.name+e}>{e}</th>))}</tr>
                         </thead> 
                         <tbody style={TS}>
-                        { valueList.sort(strCmp1).map((l) => (<tr onClick={(e) => this.selected(l,e)} key={this.props.name+hash(l)}><td>{l}</td></tr>) ) }
+                        { valueList.sort(strCmp1).map((l) => (<tr onClick={(e) => this.selected(l,e)} key={this.props.name+"L"+hash(l)}><td>{l}</td></tr>) ) }
                         </tbody>
                     </table>
                    {PADDING}
-                </Popover> 
+                </Popover>
+                 
             );
         
   },
 
   render() {
-    var {mask, formatCharacters, size, placeholder, ...props} = this.props;
+    var {mask, size, placeholder, ...props} = this.props;
+    const inpProps = except(this.props, ['popover', 'mask', 'selection']);
+    console.log("PROPS:", inpProps);
     let OK;
     var pat = this.state.mask.pattern;
     var patternLength = pat.length;
-    console.log("about to render - " + this.state.mask.isDone());
+    console.log(`about to render name:'${this.props.name}' - ${this.state.mask.isDone()}`);
     let myPopover = this.props.popover ? this._createPopover(this.state.mask.minCharsList(),['Possible Values']): (<span/>);
+      console.log("about to render - " + this.state.mask.isDone());
     let ok = this.state.mask.isDone();
     if(ok) OK = (mapImg[this.state.mask.isDone()]); //<span className="input-group-addon">.00</span>;  //
     
@@ -306,7 +318,7 @@ const RxInput = React.createClass({
                     <div className={ "form-group has-feedback" + OK[1]}>
                     <OverlayTrigger trigger="focus" style={{marginBotton: "0px"}} ref="mypop" placement="bottom" overlay={myPopover}>
                         
-                        <input {...props}
+                        <input {...inpProps}
                           className="form-control"
                           ref={r => this.input = r }
                           maxLength={patternLength}

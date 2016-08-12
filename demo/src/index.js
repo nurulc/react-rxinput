@@ -5,10 +5,10 @@ import {render} from 'react-dom';
 import RxInput from '../../src/index';
 import RX from 'incr-regex-package'
 
-console.log("HERE I AM");
 
 
-window.RX = RX;
+
+
 const US = [
     ["AL", "Alabama"],
     ["AK", "Alaska"],
@@ -72,6 +72,9 @@ const US = [
     ["WY", "Wyoming"]
 ];
 
+function genRegExStringForUS() {
+  return US.map( ([stateAbbrv, name]) => `(${stateAbbrv}-${name}|${name}-${stateAbbrv})` ).join("|");
+}
 
 const App = React.createClass({
   getInitialState() {
@@ -81,8 +84,8 @@ const App = React.createClass({
       changing: '',
       color: '',
       custom: /.*/,
-      rx: "",
-      customValue: "",
+      rxinput:  "Ssn: \\d{3}-\\d{2}-\\d{4}",          //"Custom: ((North|South) America|Africa|Asia|Australia|Antartica|Europe)",
+      customrx: "",
     }
   },
 
@@ -92,51 +95,126 @@ const App = React.createClass({
     this.setState(stateChange)
   },
 
+  _copyConents(e) {
+    if( !e ) return;
+    const target = e.target;
+    const txt = target.textContent || target.innerText;
+    console.log(txt);
+  },
+
   _changePattern(e) {
     try {
+      console.log("rxinput: "+e.target.value);
       let custom = new RegExp(e.target.value);
-      if( custom ) this.setState({custom: custom, rx: e.target.value});
+      
+      if( custom ) this.setState({custom: custom, "rxinput": e.target.value});
     } catch(e) {
-        this.setState({ rx: e.target.value});
+        this.setState({ "rxinput": e.target.value});
     }
   },
 
-  render() {
-    
-    const states = US.map(a => "(" +a[0] +"-"+a[1]+"|"+a[1]+"-"+a[0]+")").join("|");
-    //const states = US.map(a => "(" +a[1] +"-"+a[0]+")").join("|");
-    const ssn = "Ssn: \\d{3}-\\d{2}-\\d{4}";
-    const ext = "( Ext: \\d+)?";
-    const phonebase = "(\\+\\d{1,3} )?\\(\\d{3}\\)-\\d{3}-\\d{4}";
-    const phone = "Phone: "+phonebase+ext;
-    const hwc_phone = new RegExp("(Home: |Cell: )" + phonebase + "|Work: "+phonebase+ext);
-    const zip = "Zip: \\d{5}(-\\d{4})?";
-    const creditcard = "CC: (\\d{4}-){3}\\d{4} exp: (0\\d|1[012])/\\d{2}";
-
-    var rz2 = /aa[a-zA-Z]+@-@\d+!!/;
-    var emails = "[a-zA-Z_0-9][a-zA-Z_.0-9-]*@([a-zA-Z_0-9][a-zA-Z_.0-9-]*)+"
-    var rxStatePhoneCcSsn = new RegExp([states,ssn,phone,zip,creditcard, "Email: " + emails].join("|"));
-    var email = new RegExp(emails);
-    var yesno = /Yes|No/;
-    var color = /Red|Gr(een|ay)|Blue|Yellow|O(range|live)/;
-    
-    return (
-      <div className="App">
+  _createHeader() {
+   return (
+    <div>
         <h1>
           Demo of Dynamic Masked Input
         </h1>
         <p></p>
-        <p className="lead">A React component which creates a masked using RegEx to validate input as you type<code>&lt;input/&gt;</code></p>
-        <div style={ {width: "600px"} }>
-          <div className="form-field">
-            <p className="small-text form-field">RegEx: <i>too long</i> {/*rxStatePhoneCcSsn.toString()*/}</p>
-          </div>
-          <div className="form-field" style={ {verticalAlign: 'top', width: "600px"} } >
-            <label htmlFor="card">Various:</label>
-            <RxInput mask={rxStatePhoneCcSsn} name="card" id="card" popover="yes" placeholder="State Name| Phone: |Ssn:  |Cc: |Email: " 
-                         size="50" value={this.state.various} onChange={this._onChange} selection={{start:0,stop:0}} 
-            />
-          </div>
+        <p className="lead">A React component which creates a masked using 
+          <a href="https://github.com/nurulc/incr-regex-package">incremental regular expression matching</a>
+          to validate input as you type
+          <code>&lt;RxInput/&gt;</code>
+        </p>
+
+    </div>
+    );
+  },
+
+  customEditor(doRender) {
+    const expDate = "(exp: )?(0\\d|1[012])/\\d{2}";
+    return (<div>
+                 <div className="form-field">
+                  <div style={{padding: "3px 0px 3px 0px"}} className="small-text form-field" >
+                    <p  className="small-text form-field">email: <code>[a-zA-Z_0-9][a-zA-Z_.0-9-]*@([a-zA-Z_0-9][a-zA-Z_.0-9-]*)+</code></p>
+                    <p  className="small-text form-field">Continents: <code>((North|South) America|Africa|Asia|Australia|Antartica|Europe)</code></p>
+                    <p  className="small-text form-field">Colors: <code>Red|Gr(een|ay)|Blue|Yellow|O(range|live)</code></p>
+                    <p  className="small-text form-field">Month/Year: <code>{expDate}</code></p>
+                  </div>
+                  { doRender?(<div>
+                          <label htmlFor="rxinput">Enter a Regular expression:</label>
+                          <div  style={{marginBotton: "0px", paddingLeft: "100px"}}>
+                             <input name="rxinput" id="rxinput" size="100"  onBlur={this._changePattern} 
+                                    style={{padding: "3px 0px 3px 0px"}} placeholder="Enter a regular expression here, see above for examples"  />
+                          </div>
+                          </div>
+                        ): ''
+                  }
+                </div>
+                <div className="form-field">
+                  <p  className="small-text form-field">RegEx: {this.state.custom.toString()}</p>
+                </div>
+                { doRender ?
+                    <div className="form-field">
+                      <label htmlFor="customrx">Regex Tester:</label>
+                      <RxInput mask={this.state.custom} name="customrx" id="customrx" size="40" selection={{start:0,stop:0}} popover="yes" onChange={this._onChange}/>
+                    </div>
+                  : ""  
+                }
+        </div>);
+  },
+  stateSsnCcPhoneEmail(rxStatePhoneCcSsn) {
+    return ( <div>
+              <div className="form-field">
+                <p className="small-text form-field">Input allowed: <code>State Name| Phone: |Ssn:  |Cc: |Email: </code> {/*rxStatePhoneCcSsn.toString()*/}</p>
+              </div>
+              <div className="form-field" style={ {verticalAlign: 'top', width: "600px"} } >
+                <label htmlFor="card">Various:</label>
+                <RxInput mask={rxStatePhoneCcSsn} name="card" id="card" popover="yes" placeholder="State Name| Phone: |Ssn:  |Cc: |Email: " 
+                             size="50" value={this.state.various} onChange={this._onChange} selection={{start:0,stop:0}} 
+                />
+              </div>
+            </div>);
+  },
+
+
+  render() {
+    
+    const states = genRegExStringForUS(); // Regex string that matches state names or abbreviations
+    const ssn = "Ssn: \\d{3}-\\d{2}-\\d{4}"; // RegEx string that matched social security number (US)
+
+    const optionalInternationalDialing = "(\\+\\d{1,3} )?";
+    const digits3 = "\\d{3}";
+    const areaCode=digits3, exchg = digits3;
+    const digits4 = "\\d{4}";
+    const phonebase = `${optionalInternationalDialing}${areaCode}-${exchg}-${digits4}`;
+    const optionalExtension = "( Ext: \\d+)?";             //
+    const phone = `Phone: ${phonebase}${optionalExtension}`;
+    // or you could write out in full as shown below (if you are couragious)
+    // const phone = "Phone: (\\+\\d{1,3} )?\\d{3}-\\d{3}-\\d{4}( Ext: \\d+)?";
+
+
+    const hwc_phone = new RegExp(`(Home|Cell): ${phonebase}|Work: ${phonebase}${optionalExtension}`);
+    const zip = "Zip: \\d{5}(-\\d{4})?";
+    const creditcard = "CC: (\\d{4}-){3}\\d{4} exp: (0\\d|1[012])/\\d{2}";
+
+    
+    const emails = "[a-zA-Z_0-9][a-zA-Z_.0-9-]*@([a-zA-Z_0-9][a-zA-Z_.0-9-]*)+";
+
+    // the previous regexp(s) were written as strings so I can join them before making it into a regular expression
+    const rxStatePhoneCcSsn = new RegExp([states,ssn,phone,zip,creditcard, "Email: " + emails].join("|"));
+
+    const rz2 = /aa[a-zA-Z]+@-@\d+!!/;
+    const email = new RegExp(emails);
+    const yesno = /Yes|No/;
+    const color = /Red|Gr(een|ay)|Blue|Yellow|O(range|live)/;
+  
+    return (
+      <div className="App">
+        { window.hide_header?undefined: this._createHeader() }
+        <div>
+          {this.customEditor(true)}
+          {this.stateSsnCcPhoneEmail(rxStatePhoneCcSsn)}
+
           <div className="form-field">
             <p  className="small-text form-field">RegEx: {hwc_phone.toString()}</p>
           </div>
@@ -166,18 +244,14 @@ const App = React.createClass({
           </div>
           <div className="form-field">
             <label htmlFor="color">Color:</label>
-            <RxInput mask={yesno} name="color" id="color" size="40" value={this.state.color} popover="yes" selection={{start:0,stop:0}}  onChange={this._onChange}/>
+            <RxInput mask={color} name="color" id="color" size="40" value={this.state.color} popover="yes" selection={{start:0,stop:0}}  onChange={this._onChange}/>
           </div>
-          <div className="form-field">
-            <label htmlFor="rxinput">User Chosen regex:</label>
-            <input name="rxinput" id="rxinput" size="100"  onBlur={this._changePattern}/>
-          </div>
-          <div className="form-field">
-            <p  className="small-text form-field">RegEx: {this.state.custom.toString()}</p>
-          </div>
-          <div className="form-field">
-            <label htmlFor="customValue">Regex Tester:</label>
-            <RxInput mask={this.state.custom} name="customValue" id="customValue" size="40" value={this.state.customValue} selection={{start:0,stop:0}} popover="yes" onChange={this._onChange}/>
+
+          <div className="container">
+                <div className="jumbotron">
+                  <h1>RxInput Tutorial</h1> 
+                  <p>Very powerful input validation and input behavior</p> 
+                </div>
           </div>
         </div>
       </div>  
@@ -186,4 +260,4 @@ const App = React.createClass({
 });
 
 //console.log("I am here");
-render(<App/>, document.querySelector('#demo'));
+render(<App name="test"/>, document.querySelector('#demo'));
