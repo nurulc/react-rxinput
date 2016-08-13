@@ -115,25 +115,20 @@ const RxInput = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     console.log("HERE I AAM - componentWillReceiveProps", nextProps);
-    if (this.props.value !== nextProps.value) {
-      if( nextProps.value === '' && selAt(nextProps.selection,0)) 
-          this.state.mask.reset();
-      else   
-          this.state.mask.setValue(nextProps.value);
-      //this.refs.debug.forceUpdate();
-    }
-    if (this.props.mask !== nextProps.mask) {
+    if (this.props.mask.toString() !== nextProps.mask.toString()) {
       //this.state.mask.setPattern(nextProps.mask, {value: this.state.mask.getRawValue()});
       this.state.mask.setPattern(nextProps.mask, {value: this.state.mask.getValue(), selection: this.state.mask.selection});
       this.setState({ selection: this.state.selection, value: nextProps.value});
     }
+    else if (this.props.value !== nextProps.value) {
+/*      if( nextProps.value === '' && selAt(nextProps.selection,0)) 
+          this.state.mask.reset();
+      else
+*/         
+          this.state.mask.setValue(nextProps.value);
+      //this.refs.debug.forceUpdate();
+    }
   },
-
-  componentDidUpdate() {
-        setTimeout(() => {
-            this._updateInputSelection();
-        }, 0);
-    },
 
   _updateMaskSelection() {
      //console.log("HERE I AAM - _updateMaskSelection", getSelection(this.input));

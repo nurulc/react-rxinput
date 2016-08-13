@@ -83,8 +83,8 @@ const App = React.createClass({
       rgb: '',
       changing: '',
       color: '',
-      custom: /.*/,
-      rxinput:  "Ssn: \\d{3}-\\d{2}-\\d{4}",          //"Custom: ((North|South) America|Africa|Asia|Australia|Antartica|Europe)",
+      custom: /Yes|No|Nada|Yep/,
+      rxinput:  "Yes|No|Nada|Yep",          //"Custom: ((North|South) America|Africa|Asia|Australia|Antartica|Europe)",
       customrx: "",
     }
   },
@@ -105,12 +105,6 @@ const App = React.createClass({
     this.setState(stateChange)
   },
 
-  _copyConents(e) {
-    if( !e ) return;
-    const target = e.target;
-    const txt = target.textContent || target.innerText;
-    console.log(txt);
-  },
 
   _changePattern(e) {
     try {
@@ -142,30 +136,34 @@ const App = React.createClass({
   },
 
   customEditor(doRender) {
-    const expDate = "(exp: )?(0\\d|1[012])/\\d{2}";
+    const expDate = "(exp: )?(0[1-9]|1[012])/\\d{2}";
     return (<div>
                  <div className="form-field">
-                  <div style={{padding: "3px 0px 3px 0px"}} className="form-field" >
-                    <p className="small-text form-field">
-                       Click on one of the regular expressions links below, that copy the text intointo into the input field.
+                  <div style={{padding: "3px 0px 3px 0px", width: "800px"}} className="form-field" >
+                    <p className="small-text form-field" style={{marginLeft: "130px", textIndent: "0px"}}>
+                       Click on one of the regular expressions links below, that will copy the text into into the input field.
                        You can edit it and then <i>tabs</i> forward to the second input field to test
-                       the RxInput behavior. Try the expression for <code>continents</code>
-                       <br />
-                    </p>    
+                       the RxInput behavior.
+                       
+                    </p> 
+                    <p>   
                     {this.showLink("Continents","((North|South) America|Africa|Asia|Australia|Antartica|Europe)")}
                     {this.showLink("email","[a-zA-Z_0-9][a-zA-Z_.0-9-]*@([a-zA-Z_0-9][a-zA-Z_.0-9-]*)+")}
                     {this.showLink("Colors","Red|Gr(een|ay)|Blue|Yellow|O(range|live)")}
                     {this.showLink("Month/Year",expDate)}
+                    </p>
                   </div>
                   { doRender?(<div>
                           <label htmlFor="rxinput">Enter a Regular expression:</label>
                           <div  style={{marginBotton: "0px", paddingLeft: "100px"}}>
-                             <input name="rxinput" id="rxinput" size="100"  
-                                    onBlur={this._changePattern} 
+                             <input name="rxinput" id="rxinput" 
+                                    size="100"
+                                    key="rxinput"  
+                                    onChange={this._changePattern} 
                                     style={{padding: "3px 0px 3px 0px"}} 
                                     placeholder="Enter a regular expression here, see above for examples (try continent) "
                                     value={this.state.rxinput}
-                                    onChange={this._onChange}  
+                                    
                               />
                           </div>
                           </div>
@@ -218,7 +216,7 @@ const App = React.createClass({
 
     const hwc_phone = new RegExp(`(Home|Cell): ${phonebase}|Work: ${phonebase}${optionalExtension}`);
     const zip = "Zip: \\d{5}(-\\d{4})?";
-    const creditcard = "CC: (\\d{4}-){3}\\d{4} exp: (0\\d|1[012])/\\d{2}";
+    const creditcard = "CC: (\\d{4}-){3}\\d{4} exp: (0[1-9]|1[012])/\\d{2}";
 
     
     const emails = "[a-zA-Z_0-9][a-zA-Z_.0-9-]*@([a-zA-Z_0-9][a-zA-Z_.0-9-]*)+";
