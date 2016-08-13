@@ -89,6 +89,16 @@ const App = React.createClass({
     }
   },
 
+  _setValue(exp) {
+    console.log(exp);
+    this.setState({rxinput: exp, custom: new RegExp(exp), customrx: ''});
+  },
+
+  showLink(key,str) {
+    const doClick = () => this._setValue(str);
+    return (<p className="small-text form-field"><b>{key}:</b> <a onClick={doClick}>{str}</a></p>);
+  },
+
   _onChange(e) {
     const stateChange = {}
     stateChange[e.target.name] = e.target.value
@@ -106,8 +116,9 @@ const App = React.createClass({
     try {
       console.log("rxinput: "+e.target.value);
       let custom = new RegExp(e.target.value);
-      
-      if( custom ) this.setState({custom: custom, "rxinput": e.target.value});
+      var o = {rxinput: e.target.value};
+      if( custom ) o.custom = custom;
+      this.setState(o);
     } catch(e) {
         this.setState({ "rxinput": e.target.value});
     }
@@ -134,24 +145,35 @@ const App = React.createClass({
     const expDate = "(exp: )?(0\\d|1[012])/\\d{2}";
     return (<div>
                  <div className="form-field">
-                  <div style={{padding: "3px 0px 3px 0px"}} className="small-text form-field" >
-                    <p  className="small-text form-field">email: <code>[a-zA-Z_0-9][a-zA-Z_.0-9-]*@([a-zA-Z_0-9][a-zA-Z_.0-9-]*)+</code></p>
-                    <p  className="small-text form-field">Continents: <code>((North|South) America|Africa|Asia|Australia|Antartica|Europe)</code></p>
-                    <p  className="small-text form-field">Colors: <code>Red|Gr(een|ay)|Blue|Yellow|O(range|live)</code></p>
-                    <p  className="small-text form-field">Month/Year: <code>{expDate}</code></p>
+                  <div style={{padding: "3px 0px 3px 0px"}} className="form-field" >
+                    <p className="small-text form-field">
+                       Click on one of the regular expressions links below, that copy the text intointo into the input field.
+                       You can edit it and then <i>tabs</i> forward to the second input field to test
+                       the RxInput behavior. Try the expression for <code>continents</code>
+                       <br />
+                    </p>    
+                    {this.showLink("Continents","((North|South) America|Africa|Asia|Australia|Antartica|Europe)")}
+                    {this.showLink("email","[a-zA-Z_0-9][a-zA-Z_.0-9-]*@([a-zA-Z_0-9][a-zA-Z_.0-9-]*)+")}
+                    {this.showLink("Colors","Red|Gr(een|ay)|Blue|Yellow|O(range|live)")}
+                    {this.showLink("Month/Year",expDate)}
                   </div>
                   { doRender?(<div>
                           <label htmlFor="rxinput">Enter a Regular expression:</label>
                           <div  style={{marginBotton: "0px", paddingLeft: "100px"}}>
-                             <input name="rxinput" id="rxinput" size="100"  onBlur={this._changePattern} 
-                                    style={{padding: "3px 0px 3px 0px"}} placeholder="Enter a regular expression here, see above for examples"  />
+                             <input name="rxinput" id="rxinput" size="100"  
+                                    onBlur={this._changePattern} 
+                                    style={{padding: "3px 0px 3px 0px"}} 
+                                    placeholder="Enter a regular expression here, see above for examples (try continent) "
+                                    value={this.state.rxinput}
+                                    onChange={this._onChange}  
+                              />
                           </div>
                           </div>
                         ): ''
                   }
                 </div>
                 <div className="form-field">
-                  <p  className="small-text form-field">RegEx: {this.state.custom.toString()}</p>
+                  <p  className="small-text form-field">RegEx: {this.state.custom.toString()}</p>  
                 </div>
                 { doRender ?
                     <div className="form-field">
@@ -165,7 +187,7 @@ const App = React.createClass({
   stateSsnCcPhoneEmail(rxStatePhoneCcSsn) {
     return ( <div>
               <div className="form-field">
-                <p className="small-text form-field">Input allowed: <code>State Name| Phone: |Ssn:  |Cc: |Email: </code> {/*rxStatePhoneCcSsn.toString()*/}</p>
+                <p className="small-text form-field">Input allowed: <code>State Name| Phone: |Ssn:  |Cc: |Email: </code></p>
               </div>
               <div className="form-field" style={ {verticalAlign: 'top', width: "600px"} } >
                 <label htmlFor="card">Various:</label>
@@ -214,6 +236,7 @@ const App = React.createClass({
         { window.hide_header?undefined: this._createHeader() }
         <div>
           {this.customEditor(true)}
+          <hr />
           {this.stateSsnCcPhoneEmail(rxStatePhoneCcSsn)}
 
           <div className="form-field">

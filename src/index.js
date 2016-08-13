@@ -57,6 +57,11 @@ function eqSel(sel1,sel2) {
   return sel1.start === sel2.start && sel1.end === sel2.end;
 }
 
+function selAt(sel, x) {
+  if( !sel && x === 0 ) return true;
+  return sel.start === x && (sel.end === undefined || sel.end === x);
+}
+
 function strCmp1(a,b) {
   var nameA = a.toUpperCase(); // ignore upper and lowercase
   var nameB = b.toUpperCase(); // ignore upper and lowercase
@@ -104,20 +109,23 @@ const RxInput = React.createClass({
               value: this.props.value,
               selection: this.props.selection,
               mask: new RX.RXInputMask(options)
-              };
+            };
   },
 
 
   componentWillReceiveProps(nextProps) {
     console.log("HERE I AAM - componentWillReceiveProps", nextProps);
     if (this.props.value !== nextProps.value) {
-      this.state.mask.setValue(nextProps.value);
+      if( nextProps.value === '' && selAt(nextProps.selection,0)) 
+          this.state.mask.reset();
+      else   
+          this.state.mask.setValue(nextProps.value);
       //this.refs.debug.forceUpdate();
     }
     if (this.props.mask !== nextProps.mask) {
       //this.state.mask.setPattern(nextProps.mask, {value: this.state.mask.getRawValue()});
       this.state.mask.setPattern(nextProps.mask, {value: this.state.mask.getValue(), selection: this.state.mask.selection});
-      this.setState({ selection: this.state.selection});
+      this.setState({ selection: this.state.selection, value: nextProps.value});
     }
   },
 
@@ -167,9 +175,9 @@ const RxInput = React.createClass({
       }
     }
     this.setState({selection: this.mask.selection});
- //   if (this.props.onChange) {
- //     this.props.onChange(e)
- //   }
+    if (this.props.onChange) {
+      this.props.onChange(e)
+    }
   },
 
   
@@ -213,6 +221,8 @@ const RxInput = React.createClass({
     }    
   },
 
+
+
   _onKeyPress(e) {
     const mask = this.state.mask;
      console.log('onKeyPress', asStr(getSelection(this.input)),asStr(mask.selection), e.key, e.target.value)
@@ -248,6 +258,13 @@ const RxInput = React.createClass({
       //this.props.onChange(e);
       this.setState({selection: mask.selection});
     }
+  },
+
+
+  _getMaskList() {
+     const list = this.state.mask.minCharsList(true);
+     if( list && list.length < 20 ) return list;
+     return this.state.mask.minCharsList();
   },
 
   _getDisplayValue() {
@@ -303,7 +320,7 @@ const RxInput = React.createClass({
     var pat = this.state.mask.pattern;
     var patternLength = pat.length;
     console.log(`about to render name:'${this.props.name}' - ${this.state.mask.isDone()}`);
-    let myPopover = this.props.popover ? this._createPopover(this.state.mask.minCharsList(),['Possible Values']): (<span/>);
+    let myPopover = this.props.popover ? this._createPopover(this._getMaskList(),['Possible Values']): (<span/>);
       console.log("about to render - " + this.state.mask.isDone());
     let ok = this.state.mask.isDone();
     if(ok) OK = (mapImg[this.state.mask.isDone()]); //<span className="input-group-addon">.00</span>;  //
