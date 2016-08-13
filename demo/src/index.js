@@ -96,7 +96,11 @@ const App = React.createClass({
 
   showLink(key,str) {
     const doClick = () => this._setValue(str);
-    return (<p className="small-text form-field"><b>{key}:</b> <a onClick={doClick}>{str}</a></p>);
+    return (<p className="small-text form-field"><span 
+               style={{minWidth: "200px", 
+                       display: 'inline-block', 
+                       overflow: 'hidden'
+                     }} >{key}:</span> <a onClick={doClick}>{str}</a></p>);
   },
 
   _onChange(e) {
@@ -151,6 +155,7 @@ const App = React.createClass({
                     {this.showLink("email","[a-zA-Z_0-9][a-zA-Z_.0-9-]*@([a-zA-Z_0-9][a-zA-Z_.0-9-]*)+")}
                     {this.showLink("Colors","Red|Gr(een|ay)|Blue|Yellow|O(range|live)")}
                     {this.showLink("Month/Year",expDate)}
+                    {this.showLink("URL","((http|https)://[A-Za-z0-9._-]+(\\?[^ ]*)?)|(ftp|mail)://[a-zA-z0-9_-]+@[A-Za-z0-9._-]+")}
                     </p>
                   </div>
                   { doRender?(<div>
