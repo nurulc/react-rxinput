@@ -181,7 +181,10 @@ const App = React.createClass({
                 { doRender ?
                     <div className="form-field">
                       <label htmlFor="customrx">Regex Tester:</label>
-                      <RxInput mask={this.state.custom} name="customrx" id="customrx" size="40" selection={{start:0,stop:0}} popover="yes" onChange={this._onChange}/>
+                      <RxInput mask={this.state.custom} name="customrx" id="customrx" 
+                               size="40" selection={{start:0,stop:0}} popover="yes"
+                               value={this.state.customrx} 
+                               onChange={this._onChange}/>
                     </div>
                   : ""  
                 }

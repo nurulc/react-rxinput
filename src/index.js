@@ -29,6 +29,7 @@ import React from 'react'
 import except from 'except'
 import { Popover,OverlayTrigger } from 'react-bootstrap';
 import {getSelection, setSelection} from 'react/lib/ReactInputSelection';
+
 const RX = require("incr-regex-package");
 
 
@@ -114,32 +115,22 @@ const RxInput = React.createClass({
 
 
   componentWillReceiveProps(nextProps) {
-    console.log("HERE I AAM - componentWillReceiveProps", nextProps);
     if (this.props.mask.toString() !== nextProps.mask.toString()) {
       //this.state.mask.setPattern(nextProps.mask, {value: this.state.mask.getRawValue()});
-      this.state.mask.setPattern(nextProps.mask, {value: this.state.mask.getValue(), selection: this.state.mask.selection});
+      this.state.mask.setPattern(nextProps.mask, {value: nextProps.value, selection: this.state.mask.selection});
       this.setState({ selection: this.state.selection, value: nextProps.value});
     }
     else if (this.props.value !== nextProps.value) {
-/*      if( nextProps.value === '' && selAt(nextProps.selection,0)) 
-          this.state.mask.reset();
-      else
-*/         
           this.state.mask.setValue(nextProps.value);
-      //this.refs.debug.forceUpdate();
     }
   },
 
   _updateMaskSelection() {
-     //console.log("HERE I AAM - _updateMaskSelection", getSelection(this.input));
     this.state.mask.selection = getSelection(this.input);
-     //console.log("HERE I AAM - _updateMaskSelection done", this.state.mask.selection);
   },
 
   _updateInputSelection() {
-    //console.log("HERE I AAM - _updateInputSelection", this.state.mask.selection, this.state.mask.getValue());
     if( !eqSel(getSelection(this.input),this.state.mask.selection)) setSelection(this.input, this.state.mask.selection);
-    //console.log("HERE I AAM - _updateInputSelection DONE", getSelection(this.input));
   },
 
   _onFocus(e) {
@@ -267,7 +258,15 @@ const RxInput = React.createClass({
     return value === this.state.mask.emptyValue ? '' : value
   },
 
-
+  selected(str,e) {
+    console.log("Selected: "+str);
+    if( !str.split('').find(c => RX.isMeta(c)? c : undefined) ) {
+      const mask = this.state.mask;
+      mask.setValue(str);
+      this.setState({mask: mask});
+      console.log("Selected(done): "+str);
+    }
+  },
 
   _createPopover(valueList,headers, maxWidth) {
          const strip = s => LOG(s.replace(/\u0332/g,""),"strip:");
@@ -289,6 +288,7 @@ const RxInput = React.createClass({
               hashVal = (hashVal * 33) ^ str.charCodeAt(--i)
             return (hashVal >>> 0)+12;
          }
+         const me = this;
          return ( 
                <Popover  id={this.props.name+"myPopover"} className="col-xs-10 col-md-10" style={{width: MAXWIDTH,maxWidth: MAXWIDTH, fontSize: "10px", marginTop: "10px", marginBottom: "10px"}}> 
                     
@@ -297,7 +297,7 @@ const RxInput = React.createClass({
                             <tr>{headers.map((e) => (<th key={this.props.name+e}>{e}</th>))}</tr>
                         </thead> 
                         <tbody style={TS}>
-                        { valueList.sort(strCmp1).map((l) => (<tr onClick={(e) => this.selected(l,e)} key={this.props.name+"L"+hash(l)}><td>{l}</td></tr>) ) }
+                        { valueList.sort(strCmp1).map((l) => (<tr onClick={(e) => me.selected(l,e)} key={this.props.name+"L"+hash(l)}><td onClick={(e) => me.selected(l,e)}>{l}</td></tr>) ) }
                         </tbody>
                     </table>
                    {PADDING}
