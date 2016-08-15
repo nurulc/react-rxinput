@@ -45,6 +45,10 @@ A flexible input validation widget that validates you input as you type. You use
 [react-bootstrap](https://react-bootstrap.github.io/)
 [React](https://facebook.github.io/react/)
 
+## Screenshot
+
+![rxinput demo](https://raw.githubusercontent.com/nurulc/react-rxinput/master/demo-screensho.png)
+
 ## Introduction
 
 JavaScript regular expression is great and really fast, and it would be pointless to try to create a RegExp alternative that does the same thing. But having said that, this project is a specific use case  - validating input as you type using RegExp. 
