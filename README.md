@@ -29,6 +29,12 @@
 - Handles very large regular expressions
 - Pretty extensive test scripts
 
+### Demo notes:
+
+- Has some pre-canned regular expressions
+- You can try your own regular expression
+- Note: Does not error check your regular expression (bare with me I will fix that)
+
 [Please try out the demo](https://nurulc.github.io/)
 
 [incr-regex-package](https://github.com/nurulc/incr-regex-package)
@@ -63,6 +69,9 @@ Building the widget it became obvious that it could be a swiss army knife and pr
 - Is not a replacement JavaScript RegExp
 - Not sure of all RegExp edge cases are handles
 - Assome all reagep are anchored to the beging of input (meaning the regexp matching always starts at the begining
+- Currently only works as React component, requiring **bootstrap 3** and also **react-boorstrap**
+- Working on lifting the limitation and offering jQuery plugin (i have never built a jquery plugin, so it might take a little time). Further I would like to offer a version that does not depend on any external js library.
+
  
 ## Known bugs
 - Rare: but deleting input text in the middle of the input box (very complex regular expressions) sometimes misbehaves. The algorithm for handling this is rather complex. I am trying to figure out how to imp-lement the capability more elegantly.
