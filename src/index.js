@@ -48,6 +48,7 @@ function supportArrowNavigation(mask) {
    return (RX.contract.isFunc(mask.arrowAction));  
 }
 
+
 function asStr(anObj) {
   return JSON.stringify(anObj);
 }
@@ -220,11 +221,19 @@ const RxInput = React.createClass({
     let oldMaskX = mask.getSelection();
     e.preventDefault();
     this._updateMaskSelection();
-    if (mask.input(e.key)) {
+
+    if (insert(e.key)) {
       e.target.value = mask.getValue();
-      console.log("keyPress:getDisplayValue", this._getDisplayValue(),  " selection: ", asStr(selX)+"/"+asStr(mask.selection)+"<"+asStr(oldMaskX));
+      //console.log("keyPress:getDisplayValue", this._getDisplayValue(),  " selection: ", asStr(selX)+"/"+asStr(mask.selection)+"<"+asStr(oldMaskX));
       this._updateInputSelection();
       this.setState({selection: mask.selection});
+    }
+
+    function insert(ch) {
+      if(mask.input(ch)) return true;
+      if(ch !== ch.toUpperCase()) return mask.input(ch.toUpperCase());
+      else if( ch != ch.toLowerCase()) return mask.input(ch.toLowerCase());
+      return false;
     }
   },
 
