@@ -105,17 +105,15 @@ point youy browser at http://localhost:3000
 
 How to use the component:
 
+Use it where you might have used ```<input```  element, take all the properties of a regular input element
 
-**RxInput***
+**RxInput** specific properties:
 
-properties:
-
-- mask - regular expression
-- value - value to set
+- mask - **regular expression**
+- value - _value to set_
 - selection - selection
-- popover - Yes| No whether to show hints or nor
+- popover - _Yes| No_ whether to show hints or nor
 - onChange - function to execute when a chnage happens
-- placeholder - text placeholder
 
 ```
 const App = React.createClass({
