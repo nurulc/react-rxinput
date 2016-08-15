@@ -139,9 +139,13 @@ const App = React.createClass({
     );
   },
 
+  rxString(regex) {
+    return encodeURI(regex.toString().replace(/^\//,"").replace(/\/$/,""));
+  },
+
   customEditor(doRender) {
     const expDate = "(exp: )?(0[1-9]|1[012])/\\d{2}";
-    let rxStr = encodeURI(this.state.custom.toString().replace(/^\//,"").replace(/\/$/,""));
+    let rxStr = this.rxString(this.state.custom);
     return (<div>
                  <div className="form-field">
                   <div style={{padding: "3px 0px 3px 0px", width: "800px"}} className="form-field" >
@@ -172,12 +176,13 @@ const App = React.createClass({
                                     value={this.state.rxinput}
                                     tabindex="1"
                                     
-                              />
-                              <a href={`https://regexper.com/#${rxStr}`} target="rxdiagram" tabindex="3">
+                              /><br />
+                              Click Here: <a href={`https://regexper.com/#${rxStr}`} target="rxdiagram" tabindex="3">
                                    <span className="small-text">
-                                      Show RegEx Diagram(https://regexper.com)
+                                      Show RegEx Diagram(https://regexper.com)<img src="railroad.png" />
                                    </span>
                               </a>
+                              <p>&nbsp;</p>
                           </div>
                   </div>
                   
@@ -198,6 +203,7 @@ const App = React.createClass({
                 }
         </div>);
   },
+
   stateSsnCcPhoneEmail(rxStatePhoneCcSsn) {
     return ( <div>
               <div className="form-field">
@@ -208,6 +214,14 @@ const App = React.createClass({
                 <RxInput mask={rxStatePhoneCcSsn} name="card" id="card" popover="yes" placeholder="State Name| Phone: |Ssn:  |Cc: |Email: " 
                              size="50" value={this.state.various} onChange={this._onChange} selection={{start:0,stop:0}} 
                 />
+                <div  style={{marginBotton: "0px", marginLeft: "100px", display: "block"}}>
+                Click Here: <a href={`https://regexper.com/#${this.rxString(rxStatePhoneCcSsn)}`} target="rxdiagram" tabindex="3">
+                                   <span className="small-text">
+                                      Show RegEx Diagram(https://regexper.com)<img src="railroad.png" />
+                                   </span>
+                              </a>
+                              <p>&nbsp;</p>
+                </div>              
               </div>
             </div>);
   },
@@ -261,6 +275,14 @@ const App = React.createClass({
             <RxInput mask={hwc_phone} name="hwc_phone" id="hwc_phone" size="40" popover="yes"
                          placeholder="{Work: , Home:, Cell:} +<country> (ddd)-ddd-dddd Ext: dd" 
                          value={this.state.various} onChange={this._onChange} selection={{start:0,stop:0}} />
+            <div  style={{marginBotton: "0px", marginLeft: "100px", display: "block"}}> 
+            Click Here: <a href={`https://regexper.com/#${this.rxString(hwc_phone)}`} target="rxdiagram" tabindex="3">
+                                   <span className="small-text">
+                                      Show RegEx Diagram(https://regexper.com)<img src="railroad.png" />
+                                   </span>
+                              </a>
+                              <p>&nbsp;</p>
+            </div>                              
           </div>
           <div className="form-field">
             <p  className="small-text form-field">RegEx: {rz2.toString()}</p>
