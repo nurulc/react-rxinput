@@ -49,7 +49,7 @@ A flexible input validation widget that validates you input as you type. You use
 
 ## Screenshot
 
-![rxinput demo](https://raw.githubusercontent.com/nurulc/react-rxinput/master/demo-screensho.png)
+[![rxinput demo](https://raw.githubusercontent.com/nurulc/react-rxinput/master/demo-screensho.png)](https://nurulc.github.io/)
 
 ## Introduction
 
