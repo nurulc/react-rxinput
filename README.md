@@ -122,39 +122,23 @@ const App = React.createClass({
   },
 
   _onChange(e) {
-    const stateChange = {}
-    stateChange[e.target.name] = e.target.value
-    this.setState(stateChange)
+    this.setState({color: e.target.value})
   },
 
-
-  _createHeader() {
-   return (
-    <div>
-        <h1>
-          Demo of Rx Masked Input
-        </h1>
-        <p></p>
-        <p className="lead">
-          A React component which creates a masked using 
-          <a href="https://github.com/nurulc/incr-regex-package">incremental regular expression matching</a>
-          to validate input as you type
-          <code>&lt;RxInput/&gt;</code>
-        </p>
-
-    </div>
-    );
-  },
 
 
 
   render() {
-    // Color: <scome colors>  |  Email: <email> | Phone: <phone number>
+    // Some regular expression you could try
+    // const email = /[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+/;
+    // const phone = /(\\+\\d{1,3} )?\\(\\d{3}\\)-\\d{3}-\\d{4}( Ext: \\d+)?/;
+    // const color = /Red|Gr(een|ay)|Blue|Yellow|O(range|live)/;
+    
+    // A rather complex regular expression (please feel free to user your own)
     const color = /Color: (Red|Gr(een|ay)|Blue|Yellow|O(range|live))|Email: [a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+|(Phone: (\\+\\d{1,3} )?\\(\\d{3}\\)-\\d{3}-\\d{4}( Ext: \\d+)?)/;
   
     return (
       <div className="App">
-        {this._createHeader() }
         <div>
           <div className="form-field">
             <label htmlFor="color">Color:</label>
@@ -163,7 +147,6 @@ const App = React.createClass({
                      value={this.state.color} 
                      popover="yes" 
                      placeholder="Color: <scome colors>  |  Email: <email> | Phone: <phone number>"
-                     selection={{start:0,stop:0}}  
                      onChange={this._onChange}/>
           </div>
         </div>
