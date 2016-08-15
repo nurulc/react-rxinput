@@ -65,7 +65,7 @@ Building the widget it became obvious that it could be a swiss army knife and pr
 - Assome all reagep are anchored to the beging of input (meaning the regexp matching always starts at the begining
  
 ## Known bugs
-- Rare: but deleting input text in the middle of the input box (very complex regular expressions) sometimes misbehaves 
+- Rare: but deleting input text in the middle of the input box (very complex regular expressions) sometimes misbehaves. The algorithm for handling this is rather complex. I am trying to figure out how to imp-lement the capability more elegantly.
 
 ### Installation
 
