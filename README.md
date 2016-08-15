@@ -29,7 +29,7 @@
 - Handles very large regular expressions
 - Pretty extensive test scripts
 
-[Please typ out the demo](https://nurulc.github.io/)
+[Please try out the demo](https://nurulc.github.io/)
 
 [incr-regex-package](https://github.com/nurulc/incr-regex-package)
 [react-bootstrap](https://react-bootstrap.github.io/)
