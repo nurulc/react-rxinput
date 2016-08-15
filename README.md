@@ -15,37 +15,47 @@
 [coveralls]: https://coveralls.io/github/user/repo
 # react-rxinput
 
+## Summary
+
+A flexible input validation widget that validates you input as you type. You use a regular expression to validate the input. 
 
 [Demo](https://nurulc.github.io/)
 
 
 ## Highlights:
 
-- Use regular expression to define 'masked input' (project inspired by https://github.com/insin/react-maskinput)
+- Easy to use (__my opinin__)
+- Use regular expression to define 'masked input' [react-maskinput](project inspired by https://github.com/insin/react-maskinput)
 - RegExp matching/validation as you type
 - Auto complete
 - Matching suggestions
-- Replacement for mask input 
+- An alternative for [react-maskinput]() 
 - Handles very large regular expressions
 - Pretty extensive test scripts
 
-[Please typ out the demo](https://nurulc.github.io/)
+### Demo notes:
+
+- Has some pre-canned regular expressions
+- You can try your own regular expression
+- Note: Does not error check your regular expression (bare with me I will fix that)
+
+[Please try out the demo](https://nurulc.github.io/)
 
 [incr-regex-package](https://github.com/nurulc/incr-regex-package)
 [react-bootstrap](https://react-bootstrap.github.io/)
 [React](https://facebook.github.io/react/)
 
+## Introduction
 
 JavaScript regular expression is great and really fast, and it would be pointless to try to create a RegExp alternative that does the same thing. But having said that, this project is a specific use case  - validating input as you type using RegExp. 
 
 I needed a regular expression matcher that would work incrementally; By that I mean that it should let you know if a string matches the beginning part of a regular expression (good so far, but needs more input scenario). I tried to figure out if that was possible using JavaScript's regular expression matcher. I could not figure out any easy to do that. I decided that I would write an incremental regular expression matcher. I was much more difficult that I expected. But I have build an npm package that does perform incremental regular expression matching.
 
-- npm incr-regex-package, (https://github.com/nurulc/incr-regex-package)
-- input validation widget react-rxinput (https://github.com/nurulc/react-rxinput) 
+- npm [incr-regex-package](https://github.com/nurulc/incr-regex-package)
 
 The widget was inspired by another github project (https://github.com/insin/react-maskinput) that provides mask input for things like phone number, credit card number, date and so on. Although the capability is very nice, but it was limited. THe input mask you could enter has very little flexibility, wile a regular expression has all the flexibility you could need (even regexp has its limitations, cannot match recursive patterns, but that is for another day).
 
-Building the widget it became obvious that it could be a swiss army knife and provide:
+While building the widget it became obvious that it could be a swiss army knife and provide the following (so I implemented them):
 
 - Auto completion
 - Dropdown list alternative
@@ -56,6 +66,19 @@ Building the widget it became obvious that it could be a swiss army knife and pr
 - Limit the character you can enter
 - Only allow valid input as you type
 
+### Limitations
+
+- Does not support look back
+- Does not fupport look forward
+- Is not a replacement JavaScript RegExp
+- Not sure of all RegExp edge cases are handles
+- Assome all reagep are anchored to the beging of input (meaning the regexp matching always starts at the begining
+- Currently only works as React component, requiring **bootstrap 3** and also **react-boorstrap**
+- Working on lifting the limitation and offering jQuery plugin (i have never built a jquery plugin, so it might take a little time). Further I would like to offer a version that does not depend on any external js library.
+
+ 
+## Known bugs
+- Rare: but deleting input text in the middle of the input box (very complex regular expressions) sometimes misbehaves. The algorithm for handling this is rather complex. I am trying to figure out how to imp-lement the capability more elegantly.
 
 ### Installation
 
@@ -99,39 +122,23 @@ const App = React.createClass({
   },
 
   _onChange(e) {
-    const stateChange = {}
-    stateChange[e.target.name] = e.target.value
-    this.setState(stateChange)
+    this.setState({color: e.target.value})
   },
 
-
-  _createHeader() {
-   return (
-    <div>
-        <h1>
-          Demo of Rx Masked Input
-        </h1>
-        <p></p>
-        <p className="lead">
-          A React component which creates a masked using 
-          <a href="https://github.com/nurulc/incr-regex-package">incremental regular expression matching</a>
-          to validate input as you type
-          <code>&lt;RxInput/&gt;</code>
-        </p>
-
-    </div>
-    );
-  },
 
 
 
   render() {
-    // Color: <scome colors>  |  Email: <email> | Phone: <phone number>
+    // Some regular expression you could try
+    // const email = /[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+/;
+    // const phone = /(\\+\\d{1,3} )?\\(\\d{3}\\)-\\d{3}-\\d{4}( Ext: \\d+)?/;
+    // const color = /Red|Gr(een|ay)|Blue|Yellow|O(range|live)/;
+    
+    // A rather complex regular expression (please feel free to user your own)
     const color = /Color: (Red|Gr(een|ay)|Blue|Yellow|O(range|live))|Email: [a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+|(Phone: (\\+\\d{1,3} )?\\(\\d{3}\\)-\\d{3}-\\d{4}( Ext: \\d+)?)/;
   
     return (
       <div className="App">
-        {this._createHeader() }
         <div>
           <div className="form-field">
             <label htmlFor="color">Color:</label>
@@ -140,7 +147,6 @@ const App = React.createClass({
                      value={this.state.color} 
                      popover="yes" 
                      placeholder="Color: <scome colors>  |  Email: <email> | Phone: <phone number>"
-                     selection={{start:0,stop:0}}  
                      onChange={this._onChange}/>
           </div>
         </div>
