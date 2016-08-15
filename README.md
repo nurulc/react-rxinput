@@ -64,8 +64,8 @@ Building the widget it became obvious that it could be a swiss army knife and pr
 - Not sure of all RegExp edge cases are handles
 - Assome all reagep are anchored to the beging of input (meaning the regexp matching always starts at the begining
  
-# Known bugs
-- Deleting input text in the middle of the input box (very complex regular expressions) sometimes misbehaves 
+## Known bugs
+- Rare: but deleting input text in the middle of the input box (very complex regular expressions) sometimes misbehaves 
 
 ### Installation
 
