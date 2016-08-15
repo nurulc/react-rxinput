@@ -56,6 +56,16 @@ Building the widget it became obvious that it could be a swiss army knife and pr
 - Limit the character you can enter
 - Only allow valid input as you type
 
+### Limitations
+
+- Does not support look back
+- Does not fupport look forward
+- Is not a replacement JavaScript RegExp
+- Not sure of all RegExp edge cases are handles
+- Assome all reagep are anchored to the beging of input (meaning the regexp matching always starts at the begining
+ 
+# Known bugs
+- Deleting input text in the middle of the input box (very complex regular expressions) sometimes misbehaves 
 
 ### Installation
 
