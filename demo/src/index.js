@@ -141,6 +141,7 @@ const App = React.createClass({
 
   customEditor(doRender) {
     const expDate = "(exp: )?(0[1-9]|1[012])/\\d{2}";
+    let rxStr = encodeURI(this.state.custom.toString().replace(/^\//,"").replace(/\/$/,""));
     return (<div>
                  <div className="form-field">
                   <div style={{padding: "3px 0px 3px 0px", width: "800px"}} className="form-field" >
@@ -153,12 +154,13 @@ const App = React.createClass({
                     <p>   
                     {this.showLink("Continents","((North|South) America|Africa|Asia|Australia|Antartica|Europe)")}
                     {this.showLink("email","[a-zA-Z_0-9][a-zA-Z_.0-9-]*@([a-zA-Z_0-9][a-zA-Z_.0-9-]*)+")}
+                    {this.showLink("better email","[a-zA-Z0-9_.-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]{2,})*(\\.[a-zA-Z0-9_-]{2,8})")}
                     {this.showLink("Colors","Red|Gr(een|ay)|Blue|Yellow|O(range|live)")}
                     {this.showLink("Month/Year",expDate)}
                     {this.showLink("URL","((http|https)://[A-Za-z0-9._-]+(\\?[^ ]*)?)|(ftp|mail)://[a-zA-z0-9_-]+@[A-Za-z0-9._-]+")}
                     </p>
                   </div>
-                  { doRender?(<div>
+                  <div>
                           <label htmlFor="rxinput">Enter a Regular expression:</label>
                           <div  style={{marginBotton: "0px", paddingLeft: "100px"}}>
                              <input name="rxinput" id="rxinput" 
@@ -168,12 +170,17 @@ const App = React.createClass({
                                     style={{padding: "3px 0px 3px 0px"}} 
                                     placeholder="Enter a regular expression here, see above for examples (try continent) "
                                     value={this.state.rxinput}
+                                    tabindex="1"
                                     
                               />
+                              <a href={`https://regexper.com/#${rxStr}`} target="rxdiagram" tabindex="3">
+                                   <span className="small-text">
+                                      Show RegEx Diagram(https://regexper.com)
+                                   </span>
+                              </a>
                           </div>
-                          </div>
-                        ): ''
-                  }
+                  </div>
+                  
                 </div>
                 <div className="form-field">
                   <p  className="small-text form-field">RegEx: {this.state.custom.toString()}</p>  
@@ -184,7 +191,8 @@ const App = React.createClass({
                       <RxInput mask={this.state.custom} name="customrx" id="customrx" 
                                size="40" selection={{start:0,stop:0}} popover="yes"
                                value={this.state.customrx} 
-                               onChange={this._onChange}/>
+                               onChange={this._onChange}
+                               tabindex="2" />
                     </div>
                   : ""  
                 }
