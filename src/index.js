@@ -98,7 +98,8 @@ const RxInput = React.createClass({
 
   getDefaultProps() {
     return {
-      value: ''
+      value: '',
+      showAll: "yes"
     }
   },
 
@@ -295,14 +296,17 @@ const RxInput = React.createClass({
     }
   },
 
-  _createPopover(valueList,headers, maxWidth) {
+  _createPopover(valueList,headers, maxWidth,placeholder) {
          const strip = s => LOG(s.replace(/\u0332/g,""),"strip:");
          maxWidth = Math.max(150, maxWidth || 12*Math.max.apply(null, valueList.map( a => Math.min(25,strip(a).length) )));
          LOG(maxWidth,"MAX WIDTH:");
          const MAXWIDTH = maxWidth || 200;
          const SPANSTYLE = {width: MAXWIDTH-50, maxWidth: MAXWIDTH-50};
          let TS, PADDING;
-         if( !valueList || valueList.length <= 1 ) return <div />;
+         if( !valueList || valueList.length <= 1 ) {
+              if( !placeholder ) return <div />;
+              valueList = [placeholder];
+         }
          if(valueList.length> 20) {
           TS = {height: "400px", display: "block", overflow: "auto"};
           PADDING =  <div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>;
@@ -342,7 +346,7 @@ const RxInput = React.createClass({
     var pat = this.state.mask.pattern;
     var patternLength = pat.length;
     //console.log(`about to render name:'${this.props.name}' - ${this.state.mask.isDone()}`);
-    let myPopover = this.props.popover ? this._createPopover(this._getMaskList(),['Possible Values']): (<span/>);
+    let myPopover = this.props.popover ? this._createPopover(this._getMaskList(this.props.showAll !== 'no'),['Possible Values'],undefined,placeholder): (<span/>);
       //console.log("about to render - " + this.state.mask.isDone());
     let ok = this.state.mask.isDone();
     if(ok) OK = (mapImg[this.state.mask.isDone()]); //<span className="input-group-addon">.00</span>;  //

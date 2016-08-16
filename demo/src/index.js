@@ -190,6 +190,7 @@ const App = React.createClass({
                                     placeholder="Enter a regular expression here, see above for examples (try continent) "
                                     value={this.state.rxinput}
                                     tabIndex="1"
+                                    showAll="no"
                                     
                               /><br />
                               Click Here: <a href={`https://regexper.com/#${rxStr}`} target="rxdiagram" tabIndex="3">
