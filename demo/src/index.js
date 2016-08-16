@@ -76,6 +76,11 @@ function genRegExStringForUS() {
   return US.map( ([stateAbbrv, name]) => `(${stateAbbrv}-${name}|${name}-${stateAbbrv})` ).join("|");
 }
 
+const rxtokenStr =     '(?:\\[(?:\\\\u|\\\\\\]|\\\\\\\\|(\\\\)?\\[|[^\\]\\[\\\\])*?\\])|(?:\\{(?:\\d+,\\d+|'+
+                       '\\d+|\\d+,|,\\d+)\\})|(?:\\\\(?:\\.|\\||\\+|\\*|\\?|\\(|\\)|\\^|\\$|d|D|s|S|b|'+
+                       'B|w|W|\\[|\\]|\\{|\\}|\\\\))|(?:\\(\\?:|\\?\\?|\\*\\?|\\+\\?)|(?:\\.|\\||\\+|'+
+                       '\\*|\\?|\\(|\\)|\\^|\\$)|(?:[^.+?{}\\]\\[|()\\\\])';
+
 const App = React.createClass({
   getInitialState() {
     return {
@@ -96,11 +101,11 @@ const App = React.createClass({
 
   showLink(key,str) {
     const doClick = () => this._setValue(str);
-    return (<p className="small-text form-field"><span 
+    return (<div className="small-text form-field"><span 
                style={{minWidth: "200px", 
                        display: 'inline-block', 
                        overflow: 'hidden'
-                     }} >{key}:</span> <a onClick={doClick}>{str}</a></p>);
+                     }} >{key}:</span> <a onClick={doClick}>{str}</a></div>);
   },
 
   _onChange(e) {
@@ -146,6 +151,14 @@ const App = React.createClass({
   customEditor(doRender) {
     const expDate = "(exp: )?(0[1-9]|1[012])/\\d{2}";
     let rxStr = this.rxString(this.state.custom);
+    let tmpRxS = `(${rxtokenStr})*`;
+    let rxtoken;
+    try {
+      console.log(tmpRxS);
+       rxtoken = new RegExp(tmpRxS);
+     } catch(e) {
+        throw new Error("invalid Rx" + tmpRxS);
+     } 
     return (<div>
                  <div className="form-field">
                   <div style={{padding: "3px 0px 3px 0px", width: "800px"}} className="form-field" >
@@ -164,31 +177,38 @@ const App = React.createClass({
                     {this.showLink("URL","((http|https)://[A-Za-z0-9._-]+(\\?[^ ]*)?)|(ftp|mail)://[a-zA-z0-9_-]+@[A-Za-z0-9._-]+")}
                     </p>
                   </div>
-                  <div>
+                  <div className="form-field">
                           <label htmlFor="rxinput">Enter a Regular expression:</label>
-                          <div  style={{marginBotton: "0px", paddingLeft: "100px"}}>
-                             <input name="rxinput" id="rxinput" 
+                          { /*<div  style={{marginBotton: "0px", paddingLeft: "100px"}}> */}
+                             <RxInput name="rxinput" id="rxinput" 
+                                    mask={rxtoken}
                                     size="100"
                                     key="rxinput"  
                                     onChange={this._changePattern} 
                                     style={{padding: "3px 0px 3px 0px"}} 
+                                    popover="yes"
                                     placeholder="Enter a regular expression here, see above for examples (try continent) "
                                     value={this.state.rxinput}
-                                    tabindex="1"
+                                    tabIndex="1"
                                     
                               /><br />
-                              Click Here: <a href={`https://regexper.com/#${rxStr}`} target="rxdiagram" tabindex="3">
+                              Click Here: <a href={`https://regexper.com/#${rxStr}`} target="rxdiagram" tabIndex="3">
                                    <span className="small-text">
                                       Show RegEx Diagram(https://regexper.com)<img src="railroad.png" />
                                    </span>
                               </a>
                               <p>&nbsp;</p>
-                          </div>
+                              Click Here: <a href={`https://regexper.com/#${this.rxString(rxtoken)}`} target="rxdiagram" tabIndex="3">
+                                   <span className="small-text">
+                                      Show RegEx Diagram(https://regexper.com)<img src="railroad.png" />
+                                   </span>
+                              </a>
+                              <p>&nbsp;</p>
                   </div>
                   
                 </div>
                 <div className="form-field">
-                  <p  className="small-text form-field">RegEx: {this.state.custom.toString()}</p>  
+                  <p className="small-text form-field">RegEx: {this.state.custom.toString()}</p>  
                 </div>
                 { doRender ?
                     <div className="form-field">
@@ -197,7 +217,7 @@ const App = React.createClass({
                                size="40" selection={{start:0,stop:0}} popover="yes"
                                value={this.state.customrx} 
                                onChange={this._onChange}
-                               tabindex="2" />
+                               tabIndex="2" />
                     </div>
                   : ""  
                 }

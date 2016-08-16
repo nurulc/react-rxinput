@@ -153,7 +153,7 @@ const RxInput = React.createClass({
         this._updateMaskSelection();
         mask.selection.end = mask.selection.start + sizeDiff
         mask.backspace();
-        console.log("Fix maskValue", maskValue, "diff:", sizeDiff, "target value: ", e.target.value);
+        //console.log("Fix maskValue", maskValue, "diff:", sizeDiff, "target value: ", e.target.value);
       }
       var value = this._getDisplayValue();
       e.target.value = value
@@ -163,8 +163,11 @@ const RxInput = React.createClass({
     }
     this.setState({selection: this.mask.selection});
     if (this.props.onChange) {
-      this.props.onChange(e)
+      var opt = {target: {value: this.getValue()}};
+      this.props.onChange(opt);
+     
     }
+    // console.log("on change", e)
   },
 
   
@@ -178,10 +181,17 @@ const RxInput = React.createClass({
             e.preventDefault();
             this._updateMaskSelection();
             if(action()) {
+                let oldVal = e.target.value
                 let value = this._getDisplayValue();
                 e.target.value = value;
                 //console.log(action+":getDisplayValue", value);
                 if (value) {   this._updateInputSelection();    }
+                if (this.props.onChange && oldVal != value) {
+                    var opt = {target: {value: mask._getValue()}};
+                    this.props.onChange(opt);
+                    //console.log("on change", e)
+                }
+                // console.log("on change1", e)
             }
             this.setState({selection: mask.selection});
             return true;
@@ -204,7 +214,7 @@ const RxInput = React.createClass({
         //this.refs.debug.props.forceUpdate();
       }
 
-      console.log("Arrow Action support:", supportArrowNavigation(mask), " value:",this._getDisplayValue(), " selection: ", asStr(getSelection(this.input)), asStr(mask.selection));
+      //console.log("Arrow Action support:", supportArrowNavigation(mask), " value:",this._getDisplayValue(), " selection: ", asStr(getSelection(this.input)), asStr(mask.selection));
     }    
   },
 
@@ -212,7 +222,7 @@ const RxInput = React.createClass({
 
   _onKeyPress(e) {
     const mask = this.state.mask;
-     console.log('onKeyPress', asStr(getSelection(this.input)),asStr(mask.selection), e.key, e.target.value)
+     //console.log('onKeyPress', asStr(getSelection(this.input)),asStr(mask.selection), e.key, e.target.value)
 
     // Ignore modified key presses
     // Ignore enter key to allow form submission
@@ -223,10 +233,18 @@ const RxInput = React.createClass({
     this._updateMaskSelection();
 
     if (insert(e.key)) {
-      e.target.value = mask.getValue();
+      let oldVal = e.target.value;
+      let value = mask.getValue();
+      e.target.value = value;
       //console.log("keyPress:getDisplayValue", this._getDisplayValue(),  " selection: ", asStr(selX)+"/"+asStr(mask.selection)+"<"+asStr(oldMaskX));
       this._updateInputSelection();
       this.setState({selection: mask.selection});
+      if (this.props.onChange && oldVal != value) {
+            var opt = {target: {value: mask._getValue()}};
+            this.props.onChange(opt);
+           
+      }
+       //console.log("on change", e)
     }
 
     function insert(ch) {
@@ -239,15 +257,15 @@ const RxInput = React.createClass({
 
   _onPaste(e) {
     const mask = this.state.mask;
-     console.log('onPaste', asStr(getSelection(this.input)), e.clipboardData.getData('Text'), e.target.value)
+     //console.log('onPaste', asStr(getSelection(this.input)), e.clipboardData.getData('Text'), e.target.value)
 
     e.preventDefault()
     this._updateMaskSelection()
     // getData value needed for IE also works in FF & Chrome
-    console.log("paste: ", e.clipboardData.getData('Text'));
+    //console.log("paste: ", e.clipboardData.getData('Text'));
     if (mask.paste(e.clipboardData.getData('Text'))) {
       e.target.value = mask.getValue();
-      console.log("undo:getDisplayValue", this._getDisplayValue());
+      //console.log("undo:getDisplayValue", this._getDisplayValue());
       // Timeout needed for IE
       setTimeout(this._updateInputSelection, 0)
       //this.props.onChange(e);
@@ -256,8 +274,8 @@ const RxInput = React.createClass({
   },
 
 
-  _getMaskList() {
-     const list = this.state.mask.minCharsList(true);
+  _getMaskList(flag) {
+     const list = this.state.mask.minCharsList(!!flag);
      if( list && list.length < 20 ) return list;
      return this.state.mask.minCharsList();
   },
@@ -268,12 +286,12 @@ const RxInput = React.createClass({
   },
 
   selected(str,e) {
-    console.log("Selected: "+str);
+    //console.log("Selected: "+str);
     if( !str.split('').find(c => RX.isMeta(c)? c : undefined) ) {
       const mask = this.state.mask;
       mask.setValue(str);
       this.setState({mask: mask});
-      console.log("Selected(done): "+str);
+      //console.log("Selected(done): "+str);
     }
   },
 
@@ -319,13 +337,13 @@ const RxInput = React.createClass({
   render() {
     var {mask, size, placeholder, ...props} = this.props;
     const inpProps = except(this.props, ['popover', 'mask', 'selection']);
-    console.log("PROPS:", inpProps);
+    //console.log("PROPS:", inpProps);
     let OK;
     var pat = this.state.mask.pattern;
     var patternLength = pat.length;
-    console.log(`about to render name:'${this.props.name}' - ${this.state.mask.isDone()}`);
+    //console.log(`about to render name:'${this.props.name}' - ${this.state.mask.isDone()}`);
     let myPopover = this.props.popover ? this._createPopover(this._getMaskList(),['Possible Values']): (<span/>);
-      console.log("about to render - " + this.state.mask.isDone());
+      //console.log("about to render - " + this.state.mask.isDone());
     let ok = this.state.mask.isDone();
     if(ok) OK = (mapImg[this.state.mask.isDone()]); //<span className="input-group-addon">.00</span>;  //
     
