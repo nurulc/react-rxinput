@@ -33,6 +33,12 @@ A flexible input validation widget that validates you input as you type. You use
 - Handles very large regular expressions
 - Pretty extensive test scripts
 
+### Dependencies
+- [incr-regex-package](https://github.com/nurulc/incr-regex-package)
+- [react-bootstrap](https://react-bootstrap.github.io/) (Planning to remove this dependency)
+- [React](https://facebook.github.io/react/)
+
+
 ### Demo notes:
 
 - Has some pre-canned regular expressions
@@ -41,13 +47,9 @@ A flexible input validation widget that validates you input as you type. You use
 
 [Please try out the demo](https://nurulc.github.io/)
 
-[incr-regex-package](https://github.com/nurulc/incr-regex-package)
-[react-bootstrap](https://react-bootstrap.github.io/)
-[React](https://facebook.github.io/react/)
-
 ## Screenshot
 
-![rxinput demo](https://raw.githubusercontent.com/nurulc/react-rxinput/master/demo-screensho.png)
+[![rxinput demo](https://raw.githubusercontent.com/nurulc/react-rxinput/master/demo-screensho.png)](https://nurulc.github.io/)
 
 ## Introduction
 
