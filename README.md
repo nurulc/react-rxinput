@@ -1,6 +1,5 @@
 # react-rxinput
 
-# react-rxinput
 
 ## Summary
 
