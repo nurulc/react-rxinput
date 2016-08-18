@@ -1,7 +1,7 @@
 {
   "name": "react-rxinput",
   "version": "1.0.6",
-  "description": "react-rxinput React component, extends <input> element to validate against a regular expression as you type input (incremental regex matcher)",
+  "description": "react-rxinput React component, extends  input element to validate against a regular expression as you type input (incremental regex matcher)",
   "main": "lib/index.js",
   "jsnext:main": "es6/index.js",
   "files": [
@@ -40,10 +40,15 @@
   },
   "keywords": [
     "react-component",
+    "react",
+    "autocomplete",
+    "partial",
+    "suggestion",
     "regular-expression",
     "dynamic",
     "incremental",
     "validation",
-    "input"
+    "input",
+    "RegExp"
   ]
 }

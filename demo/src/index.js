@@ -195,13 +195,13 @@ const App = React.createClass({
                               /><br />
                               Click Here: <a href={`https://regexper.com/#${rxStr}`} target="rxdiagram" tabIndex="3">
                                    <span className="small-text">
-                                      Show RegEx Diagram(https://regexper.com)<img src="railroad.png" />
+                                      Show RegEx Diagram "Regexp you entered"<img src="railroad.png" />
                                    </span>
-                              </a>
-                              <p>&nbsp;</p>
-                              Click Here: <a href={`https://regexper.com/#${this.rxString(rxtoken)}`} target="rxdiagram" tabIndex="3">
+                              </a>&nbsp;
+                              
+                              <a href={`https://regexper.com/#${this.rxString(rxtoken)}`} target="rxdiagram" tabIndex="3">
                                    <span className="small-text">
-                                      Show RegEx Diagram(https://regexper.com)<img src="railroad.png" />
+                                       and for tokenizer<img src="railroad.png" />
                                    </span>
                               </a>
                               <p>&nbsp;</p>
