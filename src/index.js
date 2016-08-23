@@ -86,6 +86,24 @@ const mapImg = {
 
 //const LOG = (a, msg='') =>  { console.log(msg+": "+ a); return a; }
 const LOG = x => x;
+const RxStatus = React.createClass({
+   propTypes: {
+    mask: React.PropTypes.object.isRequired,
+   }, 
+   render() {
+     function printElem([code,typ]) {
+        if( typ === undefined ) return code;
+        return (<b>{code}</b>)
+     }
+     let t = this.props.mask.pattern.getInputTracker() || []; 
+     return (
+        <div>
+           {t.map(printElem)}
+        </div>
+      )
+   }
+});
+
 
 const RxInput = React.createClass({
   propTypes: {
@@ -358,6 +376,7 @@ const RxInput = React.createClass({
                     <div style={warningStyle} >
                         {ok} &nbsp;
                     </div>
+                    <RxStatus mask={this.state.mask} />
                     <div className={ "form-group has-feedback" + OK[1]}>
                     <OverlayTrigger trigger="focus" style={{marginBotton: "0px"}} ref="mypop" placement="bottom" overlay={myPopover}>
                         
