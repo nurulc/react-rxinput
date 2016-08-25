@@ -217,7 +217,10 @@ const App = React.createClass({
                 <div className="form-field">
                   <p className="small-text form-field">RegEx: {this.state.custom.toString()}</p>  
                 </div>
-                { doRender ?
+                    <blockquote className="blockquote small-text">
+                             <b>Note:</b> <em>The input box below to test the expresseion you entered in the RxInput field above</em>
+                    </blockquote> 
+
                     <div className="form-field">
                       <label htmlFor="customrx">Regex Tester:</label>
                       <RxInput mask={this.state.custom} name="customrx" id="customrx" 
@@ -226,8 +229,7 @@ const App = React.createClass({
                                onChange={this._onChange}
                                tabIndex="2" />
                     </div>
-                  : ""  
-                }
+                
         </div>);
   },
 
