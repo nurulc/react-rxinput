@@ -180,6 +180,7 @@ const App = React.createClass({
                         {this.showLink("better email","[a-zA-Z0-9_.-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]{2,})*(\\.[a-zA-Z0-9_-]{2,8})")}
                         {this.showLink("Colors","Red|Gr(een|ay)|Blue|Yellow|O(range|live)")}
                         {this.showLink("Month/Year",expDate)}
+                        {this.showLink("IP","(25[05]|2[0-4]\\d|[10]?\\d\\d\\.){3}(25[05]|2[0-4]\\d|1?\\d\\d\\.)")}
                         {this.showLink("URL","((http|https)://[A-Za-z0-9._-]+(\\?([a-z0-9+*.=_&-]|%[0-9a-f][0-9a-f])*)?)|(ftp|mail)://[a-zA-z0-9_-]+@[A-Za-z0-9._-]+")}
                       </div>
                     </div>
