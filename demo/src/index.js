@@ -4,7 +4,7 @@ import {render} from 'react-dom';
 
 import RxInput from '../../src/index';
 import RX from 'incr-regex-package'
-
+import { Tab, Tabs } from 'react-bootstrap';
 
 
 
@@ -163,10 +163,13 @@ const App = React.createClass({
                  <div className="form-field">
                   <div style={{padding: "3px 0px 3px 0px", width: "800px"}} className="form-field" >
                     <p className="small-text form-field" style={{marginLeft: "130px", textIndent: "0px"}}>
+                    <blockquote className="blockquote">
+                     <p className="small-text">
                        Click on one of the regular expressions links below, that will copy the text into into the input field.
                        You can edit it and then <i>tabs</i> forward to the second input field to test
                        the RxInput behavior.
-                       
+                     </p>  
+                    </blockquote>   
                     </p> 
                     <p>   
                     {this.showLink("Continents","((North|South) America|Africa|Asia|Australia|Antartica|Europe)")}
@@ -174,10 +177,13 @@ const App = React.createClass({
                     {this.showLink("better email","[a-zA-Z0-9_.-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]{2,})*(\\.[a-zA-Z0-9_-]{2,8})")}
                     {this.showLink("Colors","Red|Gr(een|ay)|Blue|Yellow|O(range|live)")}
                     {this.showLink("Month/Year",expDate)}
-                    {this.showLink("URL","((http|https)://[A-Za-z0-9._-]+(\?([a-z0-9+*.=_&-]|%[0-9a-f][0-9a-f])*)?)|(ftp|mail)://[a-zA-z0-9_-]+@[A-Za-z0-9._-]+")}
+                    {this.showLink("URL","((http|https)://[A-Za-z0-9._-]+(\\?([a-z0-9+*.=_&-]|%[0-9a-f][0-9a-f])*)?)|(ftp|mail)://[a-zA-z0-9_-]+@[A-Za-z0-9._-]+")}
                     </p>
                   </div>
                   <div className="form-field">
+                          <blockquote className="blockquote small-text">
+                             <b>Note:</b> <em>The input box below uses RegExp to validate that you are entering valid RegExp tokens</em>
+                          </blockquote>   
                           <label htmlFor="rxinput">Enter a Regular expression:</label>
                           { /*<div  style={{marginBotton: "0px", paddingLeft: "100px"}}> */}
                              <RxInput name="rxinput" id="rxinput" 
@@ -195,7 +201,7 @@ const App = React.createClass({
                               /><br />
                               Click Here: <a href={`https://regexper.com/#${rxStr}`} target="rxdiagram" tabIndex="3">
                                    <span className="small-text">
-                                      Show RegEx Diagram "Regexp you entered"<img src="railroad.png" />
+                                      RegExp Railroad Diagram"<img src="railroad.png" />
                                    </span>
                               </a>&nbsp;
                               
@@ -284,10 +290,15 @@ const App = React.createClass({
       <div className="App">
         { window.hide_header?undefined: this._createHeader() }
         <div>
-          {this.customEditor(true)}
-          <hr />
+        <Tabs defaultActiveKey={1} id="rx-example">
+         <Tab eventKey={1} title="Edit Regexp">
+             {this.customEditor(true)}
+         </Tab>
+         <Tab eventKey={2} title="Multiple Regexp Pattern">
           {this.stateSsnCcPhoneEmail(rxStatePhoneCcSsn)}
-
+         </Tab>
+         <Tab eventKey={3} title="Multiple Regexp Pattern">
+         
           <div className="form-field">
             <p  className="small-text form-field">RegEx: {hwc_phone.toString()}</p>
           </div>
@@ -305,6 +316,9 @@ const App = React.createClass({
                               <p>&nbsp;</p>
             </div>                              
           </div>
+          </Tab>
+          <Tab eventKey={4} title="Another Example">
+         
           <div className="form-field">
             <p  className="small-text form-field">RegEx: {rz2.toString()}</p>
           </div>
@@ -312,14 +326,19 @@ const App = React.createClass({
             <label htmlFor="tester">Tester:</label>
             <RxInput mask={rz2} name="mail" id="tester" size="40" value={this.state.tester} selection={{start:0,stop:0}} onChange={this._onChange}/>
           </div>
-
-          <div className="form-field">
-            <p  className="small-text form-field">RegEx: {yesno.toString()}</p>
-          </div>
-          <div className="form-field">
-            <label htmlFor="yesno">Yes No:</label>
-            <RxInput mask={yesno} name="yesno" id="yesno" size="40" value={this.state.yesno} popover="yes" selection={{start:0,stop:0}}  onChange={this._onChange}/>
-          </div>
+          </Tab>
+          <Tab eventKey={5} title="Alt Drop Down">
+            <p> This is to Demonstrate an alternative to drop-down list</p>         
+            <div className="form-field">
+              <p  className="small-text form-field">RegEx: {yesno.toString()}</p>
+            </div>
+            <div className="form-field">
+              <label htmlFor="yesno">Yes No:</label>
+              <RxInput mask={yesno} name="yesno" id="yesno" size="40" value={this.state.yesno} popover="yes" selection={{start:0,stop:0}}  onChange={this._onChange}/>
+            </div>
+          </Tab>
+          <Tab eventKey={6} title="Another example">
+         
            <div className="form-field">
             <p  className="small-text form-field">RegEx: {color.toString()}</p>
           </div>
@@ -327,11 +346,12 @@ const App = React.createClass({
             <label htmlFor="color">Color:</label>
             <RxInput mask={color} name="color" id="color" size="40" value={this.state.color} popover="yes" selection={{start:0,stop:0}}  onChange={this._onChange}/>
           </div>
-
+          </Tab>
+          </Tabs>
           <div className="container">
                 <div className="jumbotron">
                   <h1>RxInput Tutorial</h1> 
-                  <p>Very powerful input validation and input behavior</p> 
+                  <p>Very powerful input validation and input behavior React component</p> 
                 </div>
           </div>
         </div>
