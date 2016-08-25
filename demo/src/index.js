@@ -181,9 +181,13 @@ const App = React.createClass({
                     </p>
                   </div>
                   <div className="form-field">
-                          <blockquote className="blockquote small-text">
-                             <b>Note:</b> <em>The input box below uses RegExp to validate that you are entering valid RegExp tokens</em>
-                          </blockquote>   
+                          <div className="row">
+                            <div className="col-md-10 col-md-offset-2">
+                              <blockquote className="blockquote small-text">
+                                 <b>Note:</b> <em>The input box below uses RegExp to validate that you are entering valid RegExp tokens</em>
+                              </blockquote>   
+                            </div>
+                          </div>  
                           <label htmlFor="rxinput">Enter a Regular expression:</label>
                           { /*<div  style={{marginBotton: "0px", paddingLeft: "100px"}}> */}
                              <RxInput name="rxinput" id="rxinput" 
@@ -198,31 +202,39 @@ const App = React.createClass({
                                     tabIndex="1"
                                     showAll="no"
                                     
-                              /><br />
-                              Click Here: <a href={`https://regexper.com/#${rxStr}`} target="rxdiagram" tabIndex="3">
-                                   <span className="small-text">
-                                      RegExp Railroad Diagram<img src="railroad.png" />
-                                   </span>
-                              </a>&nbsp;
-                              
-                              <a href={`https://regexper.com/#${this.rxString(rxtoken)}`} target="rxdiagram" tabIndex="3">
-                                   <span className="small-text">
-                                       and for tokenizer<img src="railroad.png" />
-                                   </span>
-                              </a>
-                              <p>&nbsp;</p>
+                              />
+                              <div className="row">
+                                
+                                <div className="col-md-4 col-md-offset-2">
+                                  <a href={`https://regexper.com/#${rxStr}`} target="rxdiagram" tabIndex="3">
+                                       <span className="small-text">
+                                          RegExp Railroad Diagram<img src="railroad.png" />
+                                       </span>
+                                  </a>
+                                </div>
+                                <div className="col-md-4">
+                                  <a href={`https://regexper.com/#${this.rxString(rxtoken)}`} target="rxdiagram" tabIndex="3">
+                                       <span className="small-text">
+                                           For tokenizer (above)<img src="railroad.png" />
+                                       </span>
+                                  </a>
+                                </div>
+                              </div>
                   </div>
                   
                 </div>
-                <div className="form-field">
-                  <p className="small-text form-field">RegEx: {this.state.custom.toString()}</p>  
-                </div>
-                    <blockquote className="blockquote small-text">
-                             <b>Note:</b> <em>The input box below to test the expresseion you entered in the RxInput field above</em>
-                    </blockquote> 
+ 
 
                     <div className="form-field">
-                      <label htmlFor="customrx">Regex Tester:</label>
+                      <div className="row">
+                          <div className="col-md-2"><b>Regex Tester:</b></div>
+                          <div className="col-md-10">
+                            <blockquote className="blockquote small-text">
+                               <b>RegEx:</b> {this.state.custom.toString()} &nbsp; &nbsp;
+                               <b>Note:</b> <em>The input box below to test the expresseion you entered in the RxInput field above</em>
+                            </blockquote>   
+                          </div>
+                      </div>    
                       <RxInput mask={this.state.custom} name="customrx" id="customrx" 
                                size="40" selection={{start:0,stop:0}} popover="yes"
                                value={this.state.customrx} 
@@ -352,7 +364,7 @@ const App = React.createClass({
           </Tabs>
           <div className="container">
                 <div className="jumbotron">
-                  <h1>RxInput Tutorial</h1> 
+                  <h2>RxInput Tutorial</h2> 
                   <p>Very powerful input validation and input behavior React component</p> 
                 </div>
           </div>
