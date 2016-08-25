@@ -162,28 +162,32 @@ const App = React.createClass({
     return (<div>
                  <div className="form-field">
                   <div style={{padding: "3px 0px 3px 0px", width: "800px"}} className="form-field" >
-                    <p className="small-text form-field" style={{marginLeft: "130px", textIndent: "0px"}}>
-                    <blockquote className="blockquote">
-                     <p className="small-text">
-                       Click on one of the regular expressions links below, that will copy the text into into the input field.
-                       You can edit it and then <i>tabs</i> forward to the second input field to test
-                       the RxInput behavior.
-                     </p>  
-                    </blockquote>   
-                    </p> 
-                    <p>   
-                    {this.showLink("Continents","((North|South) America|Africa|Asia|Australia|Antartica|Europe)")}
-                    {this.showLink("email","[a-zA-Z_0-9][a-zA-Z_.0-9-]*@([a-zA-Z_0-9][a-zA-Z_.0-9-]*)+")}
-                    {this.showLink("better email","[a-zA-Z0-9_.-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]{2,})*(\\.[a-zA-Z0-9_-]{2,8})")}
-                    {this.showLink("Colors","Red|Gr(een|ay)|Blue|Yellow|O(range|live)")}
-                    {this.showLink("Month/Year",expDate)}
-                    {this.showLink("URL","((http|https)://[A-Za-z0-9._-]+(\\?([a-z0-9+*.=_&-]|%[0-9a-f][0-9a-f])*)?)|(ftp|mail)://[a-zA-z0-9_-]+@[A-Za-z0-9._-]+")}
-                    </p>
+                    <div className="row">
+                            <div className="col-md-10 col-md-offset-2">
+                              <blockquote style={{fontSize: "100%"}}>
+                               
+                                 <em>Click on one of the regular expressions links below, that will copy the text into into the input field.
+                                 You can edit it and then <i>tabs</i> forward to the second input field to test
+                                 the RxInput behavior.</em>
+                                 
+                              </blockquote>   
+                            </div> 
+                    </div>  
+                    <div className="row">
+                      <div className="col-md-10 col-md-offset-2" style={{paddingTop: "0px", paddingBottom: "0px"}}>
+                        {this.showLink("Continents","((North|South) America|Africa|Asia|Australia|Antartica|Europe)")}
+                        {this.showLink("email","[a-zA-Z_0-9][a-zA-Z_.0-9-]*@([a-zA-Z_0-9][a-zA-Z_.0-9-]*)+")}
+                        {this.showLink("better email","[a-zA-Z0-9_.-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]{2,})*(\\.[a-zA-Z0-9_-]{2,8})")}
+                        {this.showLink("Colors","Red|Gr(een|ay)|Blue|Yellow|O(range|live)")}
+                        {this.showLink("Month/Year",expDate)}
+                        {this.showLink("URL","((http|https)://[A-Za-z0-9._-]+(\\?([a-z0-9+*.=_&-]|%[0-9a-f][0-9a-f])*)?)|(ftp|mail)://[a-zA-z0-9_-]+@[A-Za-z0-9._-]+")}
+                      </div>
+                    </div>
                   </div>
                   <div className="form-field">
                           <div className="row">
                             <div className="col-md-10 col-md-offset-2">
-                              <blockquote className="blockquote small-text">
+                              <blockquote style={{fontSize: "100%"}}>
                                  <b>Note:</b> <em>The input box below uses RegExp to validate that you are entering valid RegExp tokens</em>
                               </blockquote>   
                             </div>
@@ -229,7 +233,7 @@ const App = React.createClass({
                       <div className="row">
                           <div className="col-md-2"><b>Regex Tester:</b></div>
                           <div className="col-md-10">
-                            <blockquote className="blockquote small-text">
+                            <blockquote style={{fontSize: "100%"}}>
                                <b>RegEx:</b> {this.state.custom.toString()} &nbsp; &nbsp;
                                <b>Note:</b> <em>The input box below to test the expresseion you entered in the RxInput field above</em>
                             </blockquote>   
@@ -255,14 +259,16 @@ const App = React.createClass({
                 <RxInput mask={rxStatePhoneCcSsn} name="card" id="card" popover="yes" placeholder="State Name| Phone: |Ssn:  |Cc: |Email: " 
                              size="50" value={this.state.various} onChange={this._onChange} selection={{start:0,stop:0}} 
                 />
-                <div  style={{marginBotton: "0px", marginLeft: "100px", display: "block"}}>
-                Click Here: <a href={`https://regexper.com/#${this.rxString(rxStatePhoneCcSsn)}`} target="rxdiagram" tabindex="3">
+                <div className="row" style={{marginTop: "0px"}} >                                
+                                <div className="col-md-4 col-md-offset-2">
+                                  <a href={`https://regexper.com/#${this.rxString(rxStatePhoneCcSsn)}`} target="rxdiagram" tabindex="3">
                                    <span className="small-text">
                                       Show RegEx Diagram(https://regexper.com)<img src="railroad.png" />
                                    </span>
-                              </a>
-                              <p>&nbsp;</p>
-                </div>              
+                                 </a>
+                                </div>
+                                
+                              </div>
               </div>
             </div>);
   },
