@@ -376,7 +376,7 @@ const RxInput = React.createClass({
                     <div style={warningStyle} >
                         {ok} &nbsp;
                     </div>
-                    <RxStatus mask={this.state.mask} />
+                    { /*<RxStatus mask={this.state.mask} />*/ }
                     <div className={ "form-group has-feedback" + OK[1]}>
                     <OverlayTrigger trigger="focus" style={{marginBotton: "0px"}} ref="mypop" placement="bottom" overlay={myPopover}>
                         
