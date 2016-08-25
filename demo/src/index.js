@@ -201,7 +201,7 @@ const App = React.createClass({
                               /><br />
                               Click Here: <a href={`https://regexper.com/#${rxStr}`} target="rxdiagram" tabIndex="3">
                                    <span className="small-text">
-                                      RegExp Railroad Diagram"<img src="railroad.png" />
+                                      RegExp Railroad Diagram<img src="railroad.png" />
                                    </span>
                               </a>&nbsp;
                               
