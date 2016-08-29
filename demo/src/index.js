@@ -175,12 +175,12 @@ const App = React.createClass({
                     </div>  
                     <div className="row">
                       <div className="col-md-10 col-md-offset-2" style={{paddingTop: "0px", paddingBottom: "0px"}}>
-                        {this.showLink("Continents","((North|South) America|Africa|Asia|Australia|Antartica|Europe)")}
+                        {this.showLink("Continents","((North|South) America|Africa|Asia|Australia|Antarctica|Europe)")}
                         {this.showLink("email","[a-zA-Z_0-9][a-zA-Z_.0-9-]*@([a-zA-Z_0-9][a-zA-Z_.0-9-]*)+")}
                         {this.showLink("better email","[a-zA-Z0-9_.-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]{2,})*(\\.[a-zA-Z0-9_-]{2,8})")}
                         {this.showLink("Colors","Red|Gr(een|ay)|Blue|Yellow|O(range|live)")}
                         {this.showLink("Month/Year",expDate)}
-                        {this.showLink("IP","(25[05]|2[0-4]\\d|[10]?\\d\\d\\.){3}(25[05]|2[0-4]\\d|1?\\d\\d\\.)")}
+                        {this.showLink("IP","((25[0-5]|2[0-4]\\d|[10]?\\d{1,2})\\.){3}(25[0-5]|2[0-4]\\d|[10]?\\d{1,2})")}
                         {this.showLink("URL","((http|https)://[A-Za-z0-9._-]+(\\?([a-z0-9+*.=_&-]|%[0-9a-f][0-9a-f])*)?)|(ftp|mail)://[a-zA-z0-9_-]+@[A-Za-z0-9._-]+")}
                       </div>
                     </div>
