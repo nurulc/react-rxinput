@@ -31,8 +31,8 @@ import { Popover,OverlayTrigger } from 'react-bootstrap';
 import {getSelection, setSelection} from 'react/lib/ReactInputSelection';
 
 const RX = require("incr-regex-package");
-
-
+const convertMask = RX.convertMask;
+const rxPlaceHolder = new RegExp(convertMask('[?*]'));
 const KEYCODE_Z = 90
 const KEYCODE_Y = 89
 
@@ -316,9 +316,9 @@ const RxInput = React.createClass({
 
   _createPopover(valueList,headers, maxWidth,placeholder) {
          const strip = s => LOG(s.replace(/\u0332/g,""),"strip:");
-         maxWidth = Math.max(150, maxWidth || 12*Math.max.apply(null, valueList.map( a => Math.min(25,strip(a).length) )));
+         maxWidth = Math.max(200, maxWidth || 12*Math.max.apply(null, valueList.map( a => Math.min(20,strip(a).length) )));
          LOG(maxWidth,"MAX WIDTH:");
-         const MAXWIDTH = maxWidth || 200;
+         const MAXWIDTH = maxWidth || 300;
          const SPANSTYLE = {width: MAXWIDTH-50, maxWidth: MAXWIDTH-50};
          let TS, PADDING;
          if( !valueList || valueList.length <= 1 ) {
@@ -338,9 +338,15 @@ const RxInput = React.createClass({
             return (hashVal >>> 0)+12;
          }
          const me = this;
+         let val = this._getDisplayValue() || '';
+         let ph = placeholder || this.state.mask.emptyValue;
+         let popList = [val, ph ].concat(valueList);
+         let smallHeader = "";
+         console.log(popList);
+         if( popList.find(v => v.match(rxPlaceHolder)) ) smallHeader = <pre className="text-muted small-text">{convertMask('? - optional,   * - zero or more')}</pre>;
          return ( 
                <Popover  id={this.props.name+"myPopover"} className="col-xs-10 col-md-10" style={{width: MAXWIDTH,maxWidth: MAXWIDTH, fontSize: "10px", marginTop: "10px", marginBottom: "10px"}}> 
-                    
+                    {smallHeader}
                     <table key={this.props.name+"myPopover1"} className="table-responsive table-striped table-hover table-condensed col-xs-10 col-md-10" style={SPANSTYLE}>
                         <thead>
                             <tr>{headers.map((e) => (<th key={this.props.name+e}>{e}</th>))}</tr>

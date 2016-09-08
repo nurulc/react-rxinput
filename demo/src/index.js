@@ -6,7 +6,7 @@ import RxInput from '../../src/index';
 import RX from 'incr-regex-package'
 import { Tab, Tabs } from 'react-bootstrap';
 
-
+///(((North|South)  )?(America|Africa|Atlantic|Pacific)|East Asia|The Arctic|Atlantis|Middle East|Mediterranian|Greenland|Arabia|Central (Asia|Africa|America)|Siberia|Asia|Australia|Oceanea|Antarctica|India|Europe|Ring of Fire|Polynisia|Micronesia)/
 
 
 const US = [
