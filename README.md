@@ -9,7 +9,8 @@
 * RegExp to define -  validation, masks, ... 
 * Not require coding to for most validation 
 
-See [https://github.com/nurulc/react-rxinput/wiki](Wiki for more details)
+See [Wiki for more technical details](https://github.com/nurulc/react-rxinput/wiki)
+
 A flexible input validation widget that validates you input as you type. You use a regular expression to validate the input. As all tools this little component scratches an itch - needed an form input component that would allow only valid input, guide the user as he or she in typing in the input text, perform full/partial auto complete. Most of all it should use validation components that is standard, and there is nothing more standard that regular expressions for string matching. The only problem is that JavaScript RegExp requires the entire input before it can validate. Use **incr-regex-package** implements a stream (one character at a time RegExp matching). _Note: not intenders to replace JavaScript RegExp, an alternative to regexp for these use cases._ 
 
 This component was inspired by [react-maskinput](project inspired by https://github.com/insin/react-maskinput) a component to support fixed masked input, e.g. phone number, credit card, etc. The good thing is that it does validation as you type, but the validation is very limited (you can create your custom validation code - but you have to code). The description of the mask is easy but not very flexible and is specific to this component.
