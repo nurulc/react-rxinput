@@ -343,7 +343,7 @@ const RxInput = React.createClass({
          let popList = [val, ph ].concat(valueList);
          let smallHeader = "";
          console.log(popList);
-         if( popList.find(v => v.match(rxPlaceHolder)) ) smallHeader = <pre className="text-muted small-text">{convertMask('? - optional,   * - zero or more')}</pre>;
+         if( popList.find(v => v.match(rxPlaceHolder)) ) smallHeader = <pre className="text-muted small-text">{convertMask('? - optional,  \n* - zero or more')}</pre>;
          return ( 
                <Popover  id={this.props.name+"myPopover"} className="col-xs-10 col-md-10" style={{width: MAXWIDTH,maxWidth: MAXWIDTH, fontSize: "10px", marginTop: "10px", marginBottom: "10px"}}> 
                     {smallHeader}
