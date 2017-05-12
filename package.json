@@ -11,7 +11,8 @@
     "umd"
   ],
   "scripts": {
-    "build": "nwb build && cp demo/dist/demo.* ../nurulc.github.io/",
+    "build": "nwb build",
+    "buildex": "nwb build && cp demo/dist/demo.* ../nurulc.github.io/",
     "clean": "nwb clean",
     "start": "nwb serve",
     "test": "nwb test",
