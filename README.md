@@ -26,7 +26,7 @@ This component was inspired by [react-maskinput](https://github.com/insin/react-
 - Semi-fixed format, for example URL, email
 - Mix of from a fixed list (dropdown list) and user entry formats
 - Easy to use (__my opinin__)
-- Use regular expression to define 'masked input' [react-maskinput](project inspired by https://github.com/insin/react-maskinput)
+- Use regular expression to define 'masked input' [react-maskinput](https://github.com/insin/react-maskedinput)
 - RegExp matching/validation as you type
 - Auto complete
 - Matching suggestions
@@ -60,7 +60,7 @@ I needed a regular expression matcher that would work incrementally; By that I m
 
 - npm [incr-regex-package](https://github.com/nurulc/incr-regex-package)
 
-The widget was inspired by another github project (https://github.com/insin/react-maskinput) that provides mask input for things like phone number, credit card number, date and so on. Although the capability is very nice, but it was limited. THe input mask you could enter has very little flexibility, wile a regular expression has all the flexibility you could need (even regexp has its limitations, cannot match recursive patterns, but that is for another day).
+The widget was inspired by another github project (https://github.com/insin/react-maskedinput) that provides mask input for things like phone number, credit card number, date and so on. Although the capability is very nice, but it was limited. THe input mask you could enter has very little flexibility, wile a regular expression has all the flexibility you could need (even regexp has its limitations, cannot match recursive patterns, but that is for another day).
 
 While building the widget it became obvious that it could be a swiss army knife and provide the following (so I implemented them):
 
