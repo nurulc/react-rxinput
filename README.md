@@ -17,7 +17,7 @@ This component was inspired by [react-maskinput](https://github.com/insin/react-
 
 
 
-[Demo](https://nurulc.github.io/)
+[Demo](https://nurulc.github.io/rxinput.html)
 
 
 ## Highlights:
@@ -46,11 +46,11 @@ This component was inspired by [react-maskinput](https://github.com/insin/react-
 - You can try your own regular expression
 - Note: Does not error check your regular expression (bare with me I will fix that)
 
-[Please try out the demo](https://nurulc.github.io/)
+[Please try out the demo](https://nurulc.github.io/rxinput.html)
 
 ## Screenshot
 
-[![rxinput demo](https://raw.githubusercontent.com/nurulc/react-rxinput/master/demo-screensho.png)](https://nurulc.github.io/)
+[![rxinput demo](https://raw.githubusercontent.com/nurulc/react-rxinput/master/demo-screensho.png)](https://nurulc.github.io/rxinput.html)
 
 ## Introduction
 
