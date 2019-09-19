@@ -13,11 +13,11 @@ See [Wiki for more technical details](https://github.com/nurulc/react-rxinput/wi
 
 A flexible input validation widget that validates you input as you type. You use a regular expression to validate the input. As all tools this little component scratches an itch - needed an form input component that would allow only valid input, guide the user as he or she in typing in the input text, perform full/partial auto complete. Most of all it should use validation components that is standard, and there is nothing more standard that regular expressions for string matching. The only problem is that JavaScript RegExp requires the entire input before it can validate. Use **incr-regex-package** implements a stream (one character at a time RegExp matching). _Note: not intenders to replace JavaScript RegExp, an alternative to regexp for these use cases._ 
 
-This component was inspired by [react-maskinput](project inspired by https://github.com/insin/react-maskinput) a component to support fixed masked input, e.g. phone number, credit card, etc. The good thing is that it does validation as you type, but the validation is very limited (you can create your custom validation code - but you have to code). The description of the mask is easy but not very flexible and is specific to this component.
+This component was inspired by [react-maskinput](https://github.com/insin/react-maskedinput) a component to support fixed masked input, e.g. phone number, credit card, etc. The good thing is that it does validation as you type, but the validation is very limited (you can create your custom validation code - but you have to code). The description of the mask is easy but not very flexible and is specific to this component.
 
 
 
-[Demo](https://nurulc.github.io/)
+[Demo](https://nurulc.github.io/rxinput.html)
 
 
 ## Highlights:
@@ -26,7 +26,7 @@ This component was inspired by [react-maskinput](project inspired by https://git
 - Semi-fixed format, for example URL, email
 - Mix of from a fixed list (dropdown list) and user entry formats
 - Easy to use (__my opinin__)
-- Use regular expression to define 'masked input' [react-maskinput](project inspired by https://github.com/insin/react-maskinput)
+- Use regular expression to define 'masked input' [react-maskinput](https://github.com/insin/react-maskedinput)
 - RegExp matching/validation as you type
 - Auto complete
 - Matching suggestions
@@ -46,11 +46,11 @@ This component was inspired by [react-maskinput](project inspired by https://git
 - You can try your own regular expression
 - Note: Does not error check your regular expression (bare with me I will fix that)
 
-[Please try out the demo](https://nurulc.github.io/)
+[Please try out the demo](https://nurulc.github.io/rxinput.html)
 
 ## Screenshot
 
-[![rxinput demo](https://raw.githubusercontent.com/nurulc/react-rxinput/master/demo-screensho.png)](https://nurulc.github.io/)
+[![rxinput demo](https://raw.githubusercontent.com/nurulc/react-rxinput/master/demo-screensho.png)](https://nurulc.github.io/rxinput.html)
 
 ## Introduction
 
@@ -60,7 +60,7 @@ I needed a regular expression matcher that would work incrementally; By that I m
 
 - npm [incr-regex-package](https://github.com/nurulc/incr-regex-package)
 
-The widget was inspired by another github project (https://github.com/insin/react-maskinput) that provides mask input for things like phone number, credit card number, date and so on. Although the capability is very nice, but it was limited. THe input mask you could enter has very little flexibility, wile a regular expression has all the flexibility you could need (even regexp has its limitations, cannot match recursive patterns, but that is for another day).
+The widget was inspired by another github project (https://github.com/insin/react-maskedinput) that provides mask input for things like phone number, credit card number, date and so on. Although the capability is very nice, but it was limited. THe input mask you could enter has very little flexibility, wile a regular expression has all the flexibility you could need (even regexp has its limitations, cannot match recursive patterns, but that is for another day).
 
 While building the widget it became obvious that it could be a swiss army knife and provide the following (so I implemented them):
 
