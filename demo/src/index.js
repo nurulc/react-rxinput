@@ -2,7 +2,7 @@ import './style.css'
 import React from 'react';
 import {render} from 'react-dom';
 
-import RxInput from '../../src/index';
+import {RxInput} from '../../src/index';
 import RX from 'incr-regex-package'
 import { Tab, Tabs } from 'react-bootstrap';
 
@@ -81,7 +81,16 @@ const rxtokenStr =     '(?:\\[(?:\\\\u|\\\\\\]|\\\\\\\\|(\\\\)?\\[|[^\\]\\[\\\\]
                        'B|w|W|\\[|\\]|\\{|\\}|\\\\))|(?:\\(\\?:|\\?\\?|\\*\\?|\\+\\?)|(?:\\.|\\||\\+|'+
                        '\\*|\\?|\\(|\\)|\\^|\\$)|(?:[^.+?{}\\]\\[|()\\\\])';
 
-const App = React.createClass({
+class App extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = this.getInitialState();
+    this._changePattern =this._changePattern.bind(this);
+    this._onChange =this._onChange.bind(this);
+    //this._setValue =this._setValue.bind(this);
+    //this.showLink =this.showLink.bind(this);
+    //'_setValue,showLink,_onChange,_changePattern'
+  }
   getInitialState() {
     return {
       various:  '',
@@ -92,12 +101,12 @@ const App = React.createClass({
       rxinput:  "Yes|No|Nada|Yep",          //"Custom: ((North|South) America|Africa|Asia|Australia|Antartica|Europe)",
       customrx: "",
     }
-  },
+  }
 
   _setValue(exp) {
     console.log(exp);
     this.setState({rxinput: exp, custom: new RegExp(exp), customrx: ''});
-  },
+  }
 
   showLink(key,str) {
     const doClick = () => this._setValue(str);
@@ -106,13 +115,13 @@ const App = React.createClass({
                        display: 'inline-block', 
                        overflow: 'hidden'
                      }} >{key}:</span> <a onClick={doClick}>{str}</a></div>);
-  },
+  }
 
   _onChange(e) {
-    const stateChange = {}
+    let stateChange = {}
     stateChange[e.target.name] = e.target.value
     this.setState(stateChange)
-  },
+  }
 
 
   _changePattern(e) {
@@ -122,10 +131,10 @@ const App = React.createClass({
       var o = {rxinput: e.target.value};
       if( custom ) o.custom = custom;
       this.setState(o);
-    } catch(e) {
+    } catch(err) {
         this.setState({ "rxinput": e.target.value});
     }
-  },
+  }
 
   _createHeader() {
    return (
@@ -142,11 +151,11 @@ const App = React.createClass({
 
     </div>
     );
-  },
+  }
 
   rxString(regex) {
     return encodeURI(regex.toString().replace(/^\//,"").replace(/\/$/,""));
-  },
+  }
 
   customEditor(doRender) {
     const expDate = "(exp: )?(0[1-9]|1[012])/\\d{2}";
@@ -204,21 +213,21 @@ const App = React.createClass({
                                     popover="yes"
                                     placeholder="Enter a regular expression here, see above for examples (try continent) "
                                     value={this.state.rxinput}
-                                    tabIndex="1"
+                                    tabindex="1"
                                     showAll="no"
                                     
                               />
                               <div className="row">
                                 
                                 <div className="col-md-4 col-md-offset-2">
-                                  <a href={`https://regexper.com/#${rxStr}`} target="rxdiagram" tabIndex="3">
+                                  <a href={`/regexp-visualizer.html/#${rxStr}`} target="rxdiagram" tabIndex="3">
                                        <span className="small-text">
                                           RegExp Railroad Diagram<img src="railroad.png" />
                                        </span>
                                   </a>
                                 </div>
                                 <div className="col-md-4">
-                                  <a href={`https://regexper.com/#${this.rxString(rxtoken)}`} target="rxdiagram" tabIndex="3">
+                                  <a href={`/regexp-visualizer.html/#${this.rxString(rxtoken)}`} target="rxdiagram" tabIndex="3">
                                        <span className="small-text">
                                            For tokenizer (above)<img src="railroad.png" />
                                        </span>
@@ -248,7 +257,7 @@ const App = React.createClass({
                     </div>
                 
         </div>);
-  },
+  }
 
   stateSsnCcPhoneEmail(rxStatePhoneCcSsn) {
     return ( <div>
@@ -262,7 +271,7 @@ const App = React.createClass({
                 />
                 <div className="row" style={{marginTop: "0px"}} >                                
                                 <div className="col-md-4 col-md-offset-2">
-                                  <a href={`https://regexper.com/#${this.rxString(rxStatePhoneCcSsn)}`} target="rxdiagram" tabindex="3">
+                                  <a href={`/regexp-visualizer.html/#${this.rxString(rxStatePhoneCcSsn)}`} target="rxdiagram" tabindex="3">
                                    <span className="small-text">
                                       Show RegEx Diagram(https://regexper.com)<img src="railroad.png" />
                                    </span>
@@ -272,7 +281,7 @@ const App = React.createClass({
                               </div>
               </div>
             </div>);
-  },
+  }
 
 
   render() {
@@ -329,7 +338,7 @@ const App = React.createClass({
                          placeholder="{Work: , Home:, Cell:} +<country> (ddd)-ddd-dddd Ext: dd" 
                          value={this.state.various} onChange={this._onChange} selection={{start:0,stop:0}} />
             <div  style={{marginBotton: "0px", marginLeft: "100px", display: "block"}}> 
-            Click Here: <a href={`https://regexper.com/#${this.rxString(hwc_phone)}`} target="rxdiagram" tabindex="3">
+            Click Here: <a href={`/regexp-visualizer.html/#${this.rxString(hwc_phone)}`} target="rxdiagram" tabindex="3">
                                    <span className="small-text">
                                       Show RegEx Diagram(https://regexper.com)<img src="railroad.png" />
                                    </span>
@@ -379,7 +388,7 @@ const App = React.createClass({
       </div>  
       )
   }
-});
+}
 
 //console.log("I am here");
 render(<App name="test"/>, document.querySelector('#demo'));
