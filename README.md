@@ -16,9 +16,9 @@ I stared with a simple challange, how can I make input validation both easy to u
 - Enter a phone number: 3 digit area-code, 3 digit exchange and 4 digit number
 
 * Options 
-   * No validation - Just use an input box and allow user to enter anything
-   * Application validation - allow user to enter anything, the application checks the format when the form is submitted
-   * Form validation in Javascript - allow user to enter anything, trap the onsubmit  event and use a regular expression to validate the text in the input field; perhaps a regular expression like this ___/\d{3} \d{3} \d{4}/___, just as a reminder \d will match any digit, and  \d{3} will match 3 digits.
+   1. No validation - Just use an input box and allow user to enter anything
+   2. Application validation - allow user to enter anything, the application checks the format when the form is submitted
+   3. Form validation in Javascript - allow user to enter anything, trap the onsubmit  event and use a regular expression to validate the text in the input field; perhaps a regular expression like this ___/\d{3} \d{3} \d{4}/___, just as a reminder \d will match any digit, and  \d{3} will match 3 digits.
 
 
 
