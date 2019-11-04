@@ -9,6 +9,19 @@
 * RegExp to define -  validation, masks, ... 
 * Not require coding to for most validation 
 
+## Introduction
+
+I stared with a simple challange, how can I make input validation both easy to usefor developes and anso easy to use for the end user.So lets start with very simple usecase usecase:
+
+- Enter a phone number: 3 digit area-code, 3 digit exchange and 4 digit number
+
+* Options 
+   * No validation - Just use an input box and allow user to enter anything
+   * Application validation - allow user to enter anything, the application checks the format when the form is submitted
+   * Form validation in Javascript - allow user to enter anything, trap the onsubmit  event and use a regular expression to validate the text in the input field; perhaps a regular expression like this ___/\d{3} \d{3} \d{4}/___, just as a reminder \d will match any digit, and  \d{3} will match 3 digits.
+
+
+
 See [Wiki for more technical details](https://github.com/nurulc/react-rxinput/wiki)
 
 A flexible input validation widget that validates you input as you type. You use a regular expression to validate the input. As all tools this little component scratches an itch - needed an form input component that would allow only valid input, guide the user as he or she in typing in the input text, perform full/partial auto complete. Most of all it should use validation components that is standard, and there is nothing more standard that regular expressions for string matching. The only problem is that JavaScript RegExp requires the entire input before it can validate. Use **incr-regex-package** implements a stream (one character at a time RegExp matching). _Note: not intenders to replace JavaScript RegExp, an alternative to regexp for these use cases._ 
