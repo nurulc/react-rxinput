@@ -1,18 +1,19 @@
 module.exports = {
   type: 'react-component',
-  build: {
-    externals: {
-      'react': 'React',
-      "react-dom": "ReactDOM",
-      "react-bootstrap": "ReactBootstrap",
-    },
-    global: 'RxInput',
-    jsNext: true,
-    umd: true
+  npm: {
+    esModules: true,
+    umd: {
+      global: 'RxInput',
+      externals: {
+        react: 'React',
+        ReactBootstrap: 'react-bootstrap'
+      }
+    }
   },
   webpack: {
-	  html: {
-	    template: "demo/src/index.html",
-	  },
-  },
+    html: {
+      template: 'demo/src/index.html'
+    }
+  }
 }
+

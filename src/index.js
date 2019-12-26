@@ -1,8 +1,11 @@
 //component.js
 import React, {Component} from 'react'
 import { Popover,OverlayTrigger } from 'react-bootstrap';
-const RX = require("incr-regex-package");
-const {convertMask,contract,RXInputMask,isMeta} = RX;
+import RX, {convertMask,contract,RXInputMask,isMeta} from "incr-regex-package";
+
+
+// const RX = require("incr-regex-package");
+// const {convertMask,contract,RXInputMask,isMeta} = RX;
 /** 
  * Copyright (c) 2016, Nurul Choudhury
  * 
@@ -110,50 +113,7 @@ function supportArrowNavigation(mask) {
 	 return (contract.isFunc(mask.arrowAction));  
 }
 
-function getSelection (el) {
-	let start, end, rangeEl, clone
 
-	if (el.selectionStart !== undefined) {
-		start = el.selectionStart
-		end = el.selectionEnd
-	}
-	else {
-		try {
-			el.focus()
-			rangeEl = el.createTextRange()
-			clone = rangeEl.duplicate()
-
-			rangeEl.moveToBookmark(document.selection.createRange().getBookmark())
-			clone.setEndPoint('EndToStart', rangeEl)
-
-			start = clone.text.length
-			end = start + rangeEl.text.length
-		}
-		catch (e) { /* not focused or not visible */ }
-	}
-
-	return { start, end }
-}
-
-function setSelection(el, selection) {
-	let rangeEl
-
-	try {
-		if (el.selectionStart !== undefined) {
-			el.focus()
-			el.setSelectionRange(selection.start, selection.end)
-		}
-		else {
-			el.focus()
-			rangeEl = el.createTextRange()
-			rangeEl.collapse(true)
-			rangeEl.moveStart('character', selection.start)
-			rangeEl.moveEnd('character', selection.end - selection.start)
-			rangeEl.select()
-		}
-	}
-	catch (e) { /* not focused or not visible */ }
-}
 
 function asStr(anObj) {
 	return JSON.stringify(anObj);
@@ -459,7 +419,7 @@ export class RxInput extends Component {
 				 let ph = placeholder || this.state.mask.emptyValue;
 				 let popList = [val, ph ].concat(valueList);
 				 let smallHeader = "";
-				 console.log(popList);
+				 LOG(popList);
 				 if( popList.find(v => v.match(rxPlaceHolder)) ) smallHeader = <pre className="text-muted small-text">{convertMask('? - optional,   * - zero or more')}</pre>;
 				 return ( 
 							 <Popover  id={this.props.name+"myPopover"} className="col-xs-10 col-md-10" style={{width: MAXWIDTH,maxWidth: MAXWIDTH, fontSize: "10px", marginTop: "10px", marginBottom: "10px"}}> 

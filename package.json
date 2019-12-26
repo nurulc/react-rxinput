@@ -1,7 +1,7 @@
 {
   "name": "react-rxinput",
-  "version": "1.1.1",
-  "description": "react-rxinput React component, extends  input element to validate against a regular expression as you type input (incremental regex matcher)",
+  "version": "1.1.2",
+  "description": "react-rxinput React react-bootstrap component, extends  input element to validate against a regular expression as you type input (incremental regex matcher)",
   "main": "lib/index.js",
   "jsnext:main": "es6/index.js",
   "files": [
@@ -11,27 +11,40 @@
     "umd"
   ],
   "scripts": {
-    "build": "nwb build",
-    "buildex": "nwb build && cp demo/dist/demo.* ../nurulc.github.io/",
-    "clean": "nwb clean",
-    "start": "nwb serve",
-    "test": "nwb test",
-    "test:watch": "nwb test --server"
+    "buildex": "nwb build-react-component && shx cp demo/dist/demo.*.js ../nurulc.github.io/demo.js && shx cp demo/dist/demo.*.css ../nurulc.github.io/demo.css && shx cp demo/dist/runtime.*.js ../nurulc.github.io/runtime.js",
+    "build": "nwb build-react-component",
+    "clean": "nwb clean-module && nwb clean-demo",
+    "prepublishOnly": "npm run build",
+    "start": "nwb serve-react-demo",
+    "test": "nwb test-react",
+    "test:coverage": "nwb test-react --coverage",
+    "test:watch": "nwb test-react --server"
   },
   "dependencies": {
-    "incr-regex-package": "^0.9.6",
-    "react-bootstrap": "^0.32.4",
-    "webpack": "^2.7.0"
+    "incr-regex-package": "^1.0.2"
   },
   "peerDependencies": {
-    "react-bootstrap": "^0.31"
+    "react": ">=15",
+    "react-dom": ">=15",
+    "react-bootstrap": "^1.0.0-beta.16"
   },
   "devDependencies": {
+    "@babel/cli": "^7.7.4",
+    "@babel/core": "^7.7.4",
+    "@babel/plugin-transform-react-jsx": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "@babel/preset-react": "^7.7.4",
+    "@babel/register": "^7.7.4",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
     "except": "^0.1.3",
-    "html-webpack-plugin": "^2.22.0",
-    "nwb": "0.11.x",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.1"
+    "react": "^16.12.0",
+    "react-bootstrap": "^1.0.0-beta.16",
+    "react-dom": "^16.12.0",
+    "shelljs": "^0.8.3",
+    "terser-webpack-plugin": "^2.3.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   },
   "author": "Nurul Choudhury",
   "license": "ISC",
