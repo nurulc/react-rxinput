@@ -38,7 +38,7 @@ This component was inspired by [react-maskinput](https://github.com/insin/react-
 - Good support for fixed format entry (mask input) - example Phone number, date, credit card number
 - Semi-fixed format, for example URL, email
 - Mix of from a fixed list (dropdown list) and user entry formats
-- Easy to use (__my opinin__)
+- Easy to use (__my opinion__)
 - Use regular expression to define 'masked input' [react-maskinput](https://github.com/insin/react-maskedinput)
 - RegExp matching/validation as you type
 - Auto complete
@@ -69,7 +69,7 @@ This component was inspired by [react-maskinput](https://github.com/insin/react-
 
 JavaScript regular expression is great and really fast, and it would be pointless to try to create a RegExp alternative that does the same thing. But having said that, this project is a specific use case  - validating input as you type using RegExp. 
 
-I needed a regular expression matcher that would work incrementally; By that I mean that it should let you know if a string matches the beginning part of a regular expression (good so far, but needs more input scenario). I tried to figure out if that was possible using JavaScript's regular expression matcher. I could not figure out any easy to do that. I decided that I would write an incremental regular expression matcher. I was much more difficult that I expected. But I have build an npm package that does perform incremental regular expression matching.
+I needed a regular expression matcher that would work incrementally; by that I mean that it should let you know if a string matches the beginning part of a regular expression (good so far, but needs more input scenario). I tried to figure out if that was possible using JavaScript's regular expression matcher. I could not figure out any easy to do that. I decided that I would write an incremental regular expression matcher. I was much more difficult that I expected. But I have build an npm package that does perform incremental regular expression matching.
 
 - npm [incr-regex-package](https://github.com/nurulc/incr-regex-package)
 
@@ -83,7 +83,7 @@ While building the widget it became obvious that it could be a swiss army knife 
 - Mask input replacement
 - As you type validation
 - Force upper case
-- Limit the character you can enter
+- Limit the character you can enter based on matching the regular expression
 - Only allow valid input as you type
 
 ### Limitations
