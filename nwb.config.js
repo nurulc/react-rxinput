@@ -5,10 +5,15 @@ module.exports = {
     umd: {
       global: 'RxInput',
       externals: {
-        react: 'React',
-        ReactBootstrap: 'react-bootstrap'
+        "incr-regex-package": 'iRX',
+        "react-bootstrap": "ReactBootstrap",
+        "react": "React",
+        "react-dom": "ReactDOM" 
       }
     }
+  },
+  babel: {
+    stage: 2
   },
   webpack: {
     html: {

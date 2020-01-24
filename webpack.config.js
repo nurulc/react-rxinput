@@ -38,7 +38,8 @@ module.exports = {
   externals: {
     "incr-regex-package": 'iRX',
     "react-bootstrap": "ReactBootstrap",
-    "react": "React" 
+    "react": "React",
+    "react-dom": "ReactDOM" 
   }
 };
 
