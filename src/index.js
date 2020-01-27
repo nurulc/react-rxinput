@@ -130,19 +130,7 @@ function selAt(sel, x) {
 	return sel.start === x && (sel.end === undefined || sel.end === x);
 }
 
-function strCmp1(a,b) {
-	let nameA = a.toUpperCase(); // ignore upper and lowercase
-	let nameB = b.toUpperCase(); // ignore upper and lowercase
-	if (nameA < nameB) {
-		return -1;
-	}
-	if (nameA > nameB) {
-		return 1;
-	}
 
-	// names must be equal
-	return 0;
-}
 
 const mapImg = {
 	"DONE": ([<span className="glyphicon glyphicon-ok form-control-feedback"></span>, ""] ),
@@ -168,7 +156,23 @@ class RxStatus extends Component {
 }
 
 
-export class RxInput extends Component {
+
+
+function minV(minVal) {
+	return ( val => Math.max(minVal,val)  );  
+}
+
+export 	function hashStr(str) {
+				let hashVal = 5381,
+						i    = str.length
+
+				while(i)
+					hashVal = (hashVal * 33) ^ str.charCodeAt(--i)
+				return (hashVal >>> 0)+12;
+		 }
+
+
+export class RxInputBase extends Component {
 	constructor(props) {
 		super(props);
 		this.state = this.getInitialState();
@@ -216,6 +220,26 @@ export class RxInput extends Component {
 					this.state.mask.setValue(nextProps.value);
 		}
 	}
+
+
+	// static getDerivedStateFromProps(nextProps, state) {
+	// 	//if (this.props.mask.toString() !== nextProps.mask.toString()) {
+	//     let value = nextProps.value||'';
+	//     console.log('getDerivedStateFromProps',{oldValue: state.value, value, oldmask:state.mask.pattern.toString(),mask: nextProps.mask.toString() });
+	// 	if (state.mask.pattern.toString() !== nextProps.mask.toString()) {
+	// 		//this.state.mask.setPattern(nextProps.mask, {value: this.state.mask.getRawValue()});
+	// 		state.mask.setPattern(nextProps.mask, {value, selection: state.mask.selection});
+	// 		//this.setState({ selection: this.state.selection, value: nextProps.value});
+	// 		return {...state, value: nextProps.value};
+	// 	}
+	// 	else if (state.value !== value) {
+	// 		state.mask.setValue(nextProps.value);
+	// 		console.log("value change");
+	// 		return {...state };
+	// 	}
+	// 	return null;
+	// }
+
 
 	_updateMaskSelection() {
 		this.state.mask.selection = getSelection(this.input);
@@ -391,99 +415,143 @@ export class RxInput extends Component {
 		}
 	}
 
-	_createPopover(valueList,headers, maxWidth,placeholder) {
-				 const strip = s => LOG(s.replace(/\u0332/g,""),"strip:");
-				 maxWidth = Math.max(200, maxWidth || 12*Math.max.apply(null, valueList.map( a => Math.min(20,strip(a).length) )));
-				 LOG(maxWidth,"MAX WIDTH:");
-				 const MAXWIDTH = maxWidth || 300;
-				 const SPANSTYLE = {width: MAXWIDTH-50, maxWidth: MAXWIDTH-50};
-				 let TS, PADDING;
-				 if( !valueList || valueList.length <= 1 ) {
-							if( !placeholder ) return <div />;
-							valueList = [placeholder];
-				 }
-				 if(valueList.length> 20) {
-					TS = {height: "400px", display: "block", overflow: "auto"};
-					PADDING =  <div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>;
-				 }
-				 function hash(str) {
-						let hashVal = 5381,
-								i    = str.length
+	getMaxWidth(valueList, maxWidth, dflt=200) {
+		if(maxWidth) return Math.max(maxWidth, dflt);
+		if( !valueList || !valueList.length ) return dflt;
+		const len = s => s.replace(/\u0332/g,"").length;
+		let lenList = valueList.map(len).map(minV(20))
+		return 12*Math.max.apply(null, lenList);
+	}
 
-						while(i)
-							hashVal = (hashVal * 33) ^ str.charCodeAt(--i)
-						return (hashVal >>> 0)+12;
-				 }
-				 const me = this;
-				 let val = this._getDisplayValue() || '';
-				 let ph = placeholder || this.state.mask.emptyValue;
-				 let popList = [val, ph ].concat(valueList);
-				 let smallHeader = "";
-				 LOG(popList);
-				 if( popList.find(v => v.match(rxPlaceHolder)) ) smallHeader = <pre className="text-muted small-text">{convertMask('? - optional,   * - zero or more')}</pre>;
-				 return ( 
-							 <Popover  id={this.props.name+"myPopover"} className="col-xs-10 col-md-10" style={{width: MAXWIDTH,maxWidth: MAXWIDTH, fontSize: "10px", marginTop: "10px", marginBottom: "10px"}}> 
-										{smallHeader}
-										<table key={this.props.name+"myPopover1"} className="table-responsive table-striped table-hover table-condensed col-xs-10 col-md-10" style={SPANSTYLE}>
-												<thead>
-														<tr>{headers.map((e) => (<th key={this.props.name+e}>{e}</th>))}</tr>
-												</thead> 
-												<tbody style={TS}>
-												{ valueList.sort(strCmp1).map((l) => (<tr onClick={(e) => me.selected(l,e)} key={this.props.name+"L"+hash(l)}><td onClick={(e) => me.selected(l,e)}>{l}</td></tr>) ) }
-												</tbody>
-										</table>
-									 {PADDING}
-								</Popover>
-								 
-						);
-				
+	getMapImg() { return mapImg; }
+	getRxPlaceHolder() { return rxPlaceHolder; }
+	getInput(input) { return input; }
+
+	inputClassName() { return "form-control"; }
+
+	getPopoverData(valueList,headers, maxWidth,placeholder) {
+		const MAXWIDTH = this.getMaxWidth(valueList, maxWidth,300)
+		 
+		 if( !valueList || valueList.length <= 1 ) {
+			if( !placeholder ) return undefined; //{valueList: [""], headers, MAXWIDTH, hasSmallHeader: false} ;
+			else valueList = [placeholder];
+		 }
+
+
+		 let val = this._getDisplayValue() || '';
+		 let ph = placeholder || this.state.mask.emptyValue;
+		 let popList = [val, ph ].concat(valueList);
+		 
+		 let hasSmallHeader = popList.find(v => v.match(this.getRxPlaceHolder()));
+		 return {valueList, headers, MAXWIDTH, hasSmallHeader}
 	}
 
 	render() {
-		let {mask, size, placeholder, ...props} = this.props;
-		const inpProps = except(this.props, ['popover', 'mask', 'selection', 'showAll']);
-		//console.log("PROPS:", inpProps);
-		let OK;
-		let pat = this.state.mask.pattern;
-		let patternLength = pat.length;
-		//console.log(`about to render name:'${this.props.name}' - ${this.state.mask.isDone()}`);
-		let myPopover = this.props.popover ? this._createPopover(this._getMaskList(this.props.showAll !== 'no'),['Possible Values'],undefined,placeholder): (<span/>);
-			//console.log("about to render - " + this.state.mask.isDone());
-		let ok = this.state.mask.isDone();
-		if(ok) OK = (mapImg[this.state.mask.isDone()]); //<span className="input-group-addon">.00</span>;  //
+		let {mask, size, placeholder,popover,selection,showAll,  ...props} = this.props;
+		let patternLength = this.state.mask.pattern.length;
+
 		const setRef = aDomElem => {
 			this.input = aDomElem;
 		}
-		const warningStyle = {marginBotton: "0px", fontSize: "70%", color: 'red', fontStyle: 'italic'};
-		let selDisplay = "";
-		let  inputField = (
-									<div  style={{marginBotton: "0px", paddingLeft: "100px"}}>
-										<div style={warningStyle} >
-												{ok} &nbsp;
-										</div>
-										{ /*<RxStatus mask={this.state.mask} />*/ }
-										<div className={ "form-group has-feedback" + OK[1]}>
-										<OverlayTrigger trigger="focus" style={{marginBotton: "0px"}}  placement="bottom" overlay={myPopover}>
-												<input {...inpProps}
-													className="form-control"
-													ref={setRef}
-													maxLength={patternLength}
-													onChange={this._onChange}
-													onKeyDown={this._onKeyDown}
-													onKeyPress={this._onKeyPress}
-													onPaste={this._onPaste}
-													onFocus={this._onFocus}
-													onBlur={this._onBlur}
-													placeholder={placeholder || this.state.mask.emptyValue}
-													size={size || patternLength}
-													value={this._getDisplayValue()}
-													style={{padding: "3px 0px 3px 0px"}}
-												/>
-										</OverlayTrigger>
-										{OK[0]}</div>
-									</div>
+		
+		let input = (
+			<input 
+			    style={{padding: "3px 0px 3px 0px"}}
+			    className={this.inputClassName()}
+				{...props}
+				ref={setRef}
+				maxLength={patternLength}
+				onChange={this._onChange}
+				onKeyDown={this._onKeyDown}
+				onKeyPress={this._onKeyPress}
+				onPaste={this._onPaste}
+				onFocus={this._onFocus}
+				onBlur={this._onBlur}
+				placeholder={placeholder || this.state.mask.emptyValue}
+				size={size || patternLength}
+				value={this._getDisplayValue()}		
+			/>
+		);
 
-							);
-		return    inputField;
+		return   this.getInput(input, placeholder);
 	}
+}
+
+//const LOG = (first, ...params) => {console.log(first, ...params); return first; }
+function strCmp1(a,b) {
+	let nameA = a.toUpperCase(); // ignore upper and lowercase
+	let nameB = b.toUpperCase(); // ignore upper and lowercase
+	if (nameA < nameB) {
+		return -1;
+	}
+	if (nameA > nameB) {
+		return 1;
+	}
+
+	// names must be equal
+	return 0;
+}
+
+
+export class RxInput extends RxInputBase {
+	
+	_createPopover(props) {
+		if( !props ) return <span />;
+		 const {MAXWIDTH, hasSmallHeader, valueList, headers} = props;
+		 let smallHeader = hasSmallHeader ? (smallHeader = <pre className="text-muted small-text">{convertMask('? - optional,   * - zero or more')}</pre>):"";
+		 const SPANSTYLE = {width: MAXWIDTH-50, maxWidth: MAXWIDTH-50};
+		 let TS, PADDING;
+		 console.log("valueList", valueList);
+		 if(valueList.length> 20) {
+			TS = {height: "400px", display: "block", overflow: "auto"};
+			PADDING =  <div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>;
+		 }
+		 let me = this;
+		 return ( 
+					 <Popover  id={this.props.name+"myPopover"} className="col-xs-10 col-md-10" style={{width: MAXWIDTH,maxWidth: MAXWIDTH, fontSize: "10px", marginTop: "10px", marginBottom: "10px"}}> 
+								{smallHeader}
+								<table key={this.props.name+"myPopover1"} className="table-responsive table-striped table-hover table-condensed col-xs-10 col-md-10" style={SPANSTYLE}>
+										<thead>
+												<tr>{headers.map((e) => (<th key={this.props.name+e}>{e}</th>))}</tr>
+										</thead> 
+										<tbody style={TS}>
+										{ valueList.sort(strCmp1).map((l) => (<tr onClick={(e) => me.selected(l,e)} key={this.props.name+"L"+hashStr(l)}><td onClick={(e) => me.selected(l,e)}>{l}</td></tr>) ) }
+										</tbody>
+								</table>
+							 {PADDING}
+						</Popover>
+						 
+				);
+					
+		}
+
+		getInput(input, placeholder) {
+			
+			let OK;
+			const warningStyle = {marginBotton: "0px", fontSize: "70%", color: 'red', fontStyle: 'italic'};
+			let mapImg = this.getMapImg();
+			//let status = <RxStatus mask={this.state.mask};
+			let status = "";
+			let popOverData = this.getPopoverData(this._getMaskList(this.props.showAll !== 'no'),['Possible Values'],undefined,placeholder);
+			
+			let myPopover = this.props.popover ? this._createPopover(popOverData): (<span/>);
+			let ok = this.state.mask.isDone();
+			if(ok) OK = (mapImg[this.state.mask.isDone()]); //<span className="input-group-addon">.00</span>;  //
+			return (
+					<div  style={{marginBotton: "0px", paddingLeft: "100px"}}>
+						<div style={warningStyle} >
+								{ok} &nbsp;
+						</div>
+						{status}
+						<div className={ "form-group has-feedback" + OK[1]}>
+						<OverlayTrigger trigger="focus" style={{marginBotton: "0px"}}  placement="bottom" overlay={myPopover}>
+							{input}
+						</OverlayTrigger>
+						{OK[0]}</div>
+					</div>
+
+			);
+
+		}
+	
 }

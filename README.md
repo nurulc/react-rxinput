@@ -1,11 +1,15 @@
 # react-rxinput
 
+## Changes
+
+### v2.0 
+* Removed bootstrap dependency and made the component UI neural and the expense of reduced visual functionality. 
+* The functionality can be reintroduced through customization
 
 ## Summary
 
 * React Component
 * Input component
-* Bootstrap css formatting
 * RegExp to define -  validation, masks, ... 
 * Not require coding to for most validation 
 

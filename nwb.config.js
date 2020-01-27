@@ -5,7 +5,7 @@ module.exports = {
     umd: {
       global: 'RxInput',
       externals: {
-        "incr-regex-package": 'iRX',
+//        "incr-regex-package": 'iRX',
         "react-bootstrap": "ReactBootstrap",
         "react": "React",
         "react-dom": "ReactDOM" 

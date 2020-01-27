@@ -1,7 +1,7 @@
 {
   "name": "react-rxinput",
-  "version": "1.1.2",
-  "description": "react-rxinput React react-bootstrap component, extends  input element to validate against a regular expression as you type input (incremental regex matcher)",
+  "version": "1.1.0",
+  "description": "react-rxinput React extends  input element to validate against a regular expression as you type input (incremental regex matcher)",
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",
   "files": [

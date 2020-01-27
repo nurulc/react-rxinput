@@ -1,14 +1,14 @@
 import './style.css'
 import React from 'react';
 import {render} from 'react-dom';
-
-import {RxInput} from '../../src/index';
-import RX from 'incr-regex-package'
+import { Popover,OverlayTrigger } from 'react-bootstrap';
+import {RxInputBase,RxInput, hashStr} from '../../src/index';
+import RX, {convertMask,contract,RXInputMask,isMeta} from "incr-regex-package";
 import { Tab, Tabs } from 'react-bootstrap';
 
 ///(((North|South)  )?(America|Africa|Atlantic|Pacific)|East Asia|The Arctic|Atlantis|Middle East|Mediterranian|Greenland|Arabia|Central (Asia|Africa|America)|Siberia|Asia|Australia|Oceanea|Antarctica|India|Europe|Ring of Fire|Polynisia|Micronesia)/
 
-
+const RxInputBS = RxInput;
 const US = [
 		["AL", "Alabama"],
 		["AK", "Alaska"],
@@ -71,6 +71,81 @@ const US = [
 		["WI", "Wisconsin"],
 		["WY", "Wyoming"]
 ];
+
+const LOG = (first, ...params) => {console.log(first, ...params); return first; }
+function strCmp1(a,b) {
+	let nameA = a.toUpperCase(); // ignore upper and lowercase
+	let nameB = b.toUpperCase(); // ignore upper and lowercase
+	if (nameA < nameB) {
+		return -1;
+	}
+	if (nameA > nameB) {
+		return 1;
+	}
+
+	// names must be equal
+	return 0;
+}
+
+
+// class RxInputBS extends RxInputBase {
+	
+// 	_createPopover(props) {
+// 		 const {MAXWIDTH, hasSmallHeader, valueList, headers} = props;
+// 		 let smallHeader = hasSmallHeader ? (smallHeader = <pre className="text-muted small-text">{convertMask('? - optional,   * - zero or more')}</pre>):"";
+// 		 const SPANSTYLE = {width: MAXWIDTH-50, maxWidth: MAXWIDTH-50};
+// 		 let TS, PADDING;
+// 		 if(valueList.length> 20) {
+// 			TS = {height: "400px", display: "block", overflow: "auto"};
+// 			PADDING =  <div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>;
+// 		 }
+// 		 return ( 
+// 					 <Popover  id={this.props.name+"myPopover"} className="col-xs-10 col-md-10" style={{width: MAXWIDTH,maxWidth: MAXWIDTH, fontSize: "10px", marginTop: "10px", marginBottom: "10px"}}> 
+// 								{smallHeader}
+// 								<table key={this.props.name+"myPopover1"} className="table-responsive table-striped table-hover table-condensed col-xs-10 col-md-10" style={SPANSTYLE}>
+// 										<thead>
+// 												<tr>{headers.map((e) => (<th key={this.props.name+e}>{e}</th>))}</tr>
+// 										</thead> 
+// 										<tbody style={TS}>
+// 										{ valueList.sort(strCmp1).map((l) => (<tr onClick={(e) => me.selected(l,e)} key={this.props.name+"L"+hashStr(l)}><td onClick={(e) => me.selected(l,e)}>{l}</td></tr>) ) }
+// 										</tbody>
+// 								</table>
+// 							 {PADDING}
+// 						</Popover>
+						 
+// 				);
+					
+// 		}
+
+// 		getInput(input, placeholder) {
+			
+// 			let OK;
+// 			const warningStyle = {marginBotton: "0px", fontSize: "70%", color: 'red', fontStyle: 'italic'};
+// 			let mapImg = this.getMapImg();
+// 			//let status = <RxStatus mask={this.state.mask};
+// 			let status = "";
+// 			let popOverData = this.getPopoverData(this._getMaskList(this.props.showAll !== 'no'),['Possible Values'],undefined,placeholder);
+// 			let myPopover = this.props.popover ? this._createPopover(popOverData): (<span/>);
+// 			let ok = this.state.mask.isDone();
+// 			if(ok) OK = (mapImg[this.state.mask.isDone()]); //<span className="input-group-addon">.00</span>;  //
+// 			return (
+// 					<div  style={{marginBotton: "0px", paddingLeft: "100px"}}>
+// 						<div style={warningStyle} >
+// 								{ok} &nbsp;
+// 						</div>
+// 						{status}
+// 						<div className={ "form-group has-feedback" + OK[1]}>
+// 						<OverlayTrigger trigger="focus" style={{marginBotton: "0px"}}  placement="bottom" overlay={myPopover}>
+// 							{input}
+// 						</OverlayTrigger>
+// 						{OK[0]}</div>
+// 					</div>
+
+// 			);
+
+// 		}
+	
+// }
 
 const enterContinent = (
 	<span>Allows you to type the name of a continent, eg Europe, Asia ...</span> 
@@ -156,7 +231,7 @@ class App extends React.Component{
 				<p className="lead">A React component which creates a masked using &nbsp;
 					<a href="https://github.com/nurulc/incr-regex-package">incremental regular expression matching</a> &nbsp;
 					to validate input as you type <br />
-					<code>&lt;RxInput/&gt;</code>
+					<code>&lt;RxInputBS/&gt;</code>
 				</p>
 
 		</div>
@@ -191,7 +266,7 @@ class App extends React.Component{
 															 
 																 <em>Click on one of the regular expressions links below, that will copy the text into into the input field.
 																 You can edit it and then <i>tabs</i> forward to the second input field to test
-																 the RxInput behavior.</em>
+																 the RxInputBS behavior.</em>
 																 
 															</blockquote>   
 														</div> 
@@ -218,7 +293,7 @@ class App extends React.Component{
 													</div>  
 													<label htmlFor="rxinput">Enter a Regular expression:</label>
 													{ /*<div  style={{marginBotton: "0px", paddingLeft: "100px"}}> */}
-														 <RxInput name="rxinput" id="rxinput" 
+														 <RxInputBS name="rxinput" id="rxinput" 
 																		mask={rxtoken}
 																		size="100"
 																		key="rxinput"  
@@ -260,11 +335,11 @@ class App extends React.Component{
 													<div className="col-md-10">
 														<blockquote style={{fontSize: "100%"}}>
 															 <b>RegEx:</b> {this.state.custom.toString()} &nbsp; &nbsp;
-															 <b>Note:</b> <em>The input box below to test the expresseion you entered in the RxInput field above</em>
+															 <b>Note:</b> <em>The input box below to test the expresseion you entered in the RxInputBS field above</em>
 														</blockquote>   
 													</div>
 											</div>    
-											<RxInput mask={this.state.custom} name="customrx" id="customrx" 
+											<RxInputBS mask={this.state.custom} name="customrx" id="customrx" 
 															 size="40" selection={{start:0,stop:0}} popover="yes"
 															 value={this.state.customrx} 
 															 onChange={this._onChange}
@@ -281,7 +356,7 @@ class App extends React.Component{
 							</div>
 							<div className="form-field" style={ {verticalAlign: 'top', width: "600px"} } >
 								<label htmlFor="xcardx">Various:</label>
-								<RxInput mask={rxStatePhoneCcSsn} name="xcardx" id="xcardx" popover="yes" placeholder="State Name| Phone: |Ssn:  |Cc: |Email: " 
+								<RxInputBS mask={rxStatePhoneCcSsn} name="xcardx" id="xcardx" popover="yes" placeholder="State Name| Phone: |Ssn:  |Cc: |Email: " 
 														 size="50" value={this.state.various} onChange={this._onChange} selection={{start:0,stop:0}} 
 								/>
 								<Railroad data={rxStatePhoneCcSsn} />
@@ -359,7 +434,7 @@ class App extends React.Component{
 					</div>
 					<div className="form-field">
 						<label htmlFor="hwc_phone">Home/Work/Cell:</label>
-						<RxInput mask={hwc_phone} name="hwc_phone" id="hwc_phone" size="40" popover="yes"
+						<RxInputBS mask={hwc_phone} name="hwc_phone" id="hwc_phone" size="40" popover="yes"
 												 placeholder="{Work: , Home:, Cell:} +<country> (ddd)-ddd-dddd Ext: dd" 
 												 value={this.state.various} onChange={this._onChange} selection={{start:0,stop:0}} />
 						<Railroad data={hwc_phone} />
@@ -374,7 +449,7 @@ class App extends React.Component{
 					</div>
 					<div className="form-field">
 						<label htmlFor="tester">Tester:</label>
-						<RxInput mask={rz2} name="xmailx" id="tester" size="40" value={this.state.tester} selection={{start:0,stop:0}} onChange={this._onChange}/>
+						<RxInputBS mask={rz2} name="xmailx" id="tester" size="40" value={this.state.tester} selection={{start:0,stop:0}} onChange={this._onChange}/>
 					</div>
 					</Tab>
 					<Tab eventKey={5} title="Alt Drop Down">
@@ -384,7 +459,7 @@ class App extends React.Component{
 						</div>
 						<div className="form-field">
 							<label htmlFor="yesno">Yes No:</label>
-							<RxInput mask={yesno} name="yesno" id="yesno" size="40" value={this.state.yesno} popover="yes" selection={{start:0,stop:0}}  onChange={this._onChange}/>
+							<RxInputBS mask={yesno} name="yesno" id="yesno" size="40" value={this.state.yesno} popover="yes" selection={{start:0,stop:0}}  onChange={this._onChange}/>
 						</div>
 					</Tab>
 					<Tab eventKey={6} title="Another example">
@@ -394,14 +469,14 @@ class App extends React.Component{
 					</div>
 					<div className="form-field">
 						<label htmlFor="color">Color:</label>
-						<RxInput mask={color} name="color" id="color" size="40" value={this.state.color} popover="yes" selection={{start:0,stop:0}}  onChange={this._onChange}/>
+						<RxInputBS mask={color} name="color" id="color" size="40" value={this.state.color} popover="yes" selection={{start:0,stop:0}}  onChange={this._onChange}/>
 					</div>
 					</Tab>
 					</Tabs>
 					<div style={{height: "900px"}}>&nbsp;</div>
 					<div className="container">
 						<div className="jumbotron">
-							<h2>RxInput Tutorial</h2> 
+							<h2>RxInputBS Tutorial</h2> 
 							<p>Very powerful input validation and input behavior React component</p> 
 						</div>
 					</div>
