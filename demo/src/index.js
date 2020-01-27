@@ -306,24 +306,10 @@ class App extends React.Component{
 																		showAll="no"
 																		
 															/>
-															<Railroad data={rxStr} />
-															<div className="row">
-																
-																<div className="col-md-4 col-md-offset-2">
-																	<a href={`/regexp-visualizer.html#${rxStr}`} target="rxdiagram" tabIndex="3">
-																			 <span className="small-text">
-																					RegExp Railroad Diagram<img src="railroad.png" />
-																			 </span>
-																	</a>
-																</div>
-																<div className="col-md-4">
-																	<a href={`/regexp-visualizer.html#${this.rxString(rxtoken)}`} target="rxdiagram" tabIndex="3">
-																			 <span className="small-text">
-																					 For tokenizer (above)<img src="railroad.png" />
-																			 </span>
-																	</a>
-																</div>
-															</div>
+															
+															
+																<Railroad data={rxStr} /> 
+															
 									</div>
 									
 								</div>
@@ -360,16 +346,6 @@ class App extends React.Component{
 														 size="50" value={this.state.various} onChange={this._onChange} selection={{start:0,stop:0}} 
 								/>
 								<Railroad data={rxStatePhoneCcSsn} />
-								<div className="row" style={{marginTop: "0px"}} >                                
-																<div className="col-md-4 col-md-offset-2">
-																	<a href={`/regexp-visualizer.html#${this.rxString(rxStatePhoneCcSsn)}`} target="rxdiagram" tabIndex="3">
-																	 <span className="small-text">
-																			Show RegEx Diagram(https://regexper.com)<img src="railroad.png" />
-																	 </span>
-																 </a>
-																</div>
-																
-															</div>
 							</div>
 						</div>);
 	}
@@ -488,11 +464,13 @@ class App extends React.Component{
 
 
 function   rxString(regex) {
-		return encodeURI(regex.toString().replace(/^\//,"").replace(/\/$/,""));
+		//return encodeURI(regex.toString().replace(/^\//,"").replace(/\/$/,""));
+		return (regex.toString().replace(/^\//,"").replace(/\/$/,""));
 	}
 
 function Railroad({data}) {
-	return <div className="row" style={{marginTop: "0px"}} >                                
+	//return null;
+	return (<div className="row" style={{marginTop: "0px"}} >                                
 						<div className="col-md-4 col-md-offset-2">
 							<a href={`/regexp-visualizer.html#${rxString(data)}`} target="rxdiagram" tabIndex="3">
 							 <span className="small-text">
@@ -502,6 +480,7 @@ function Railroad({data}) {
 						</div>
 																
 					</div>
+					)
 }
 
 //console.log("I am here");
