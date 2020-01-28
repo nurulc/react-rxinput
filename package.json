@@ -19,33 +19,34 @@
     "test": "nwb test-react",
     "test:coverage": "nwb test-react --coverage",
     "test:watch": "nwb test-react --server",
-    "webpack" : "webpack"
+    "webpack": "webpack"
   },
-  "dependencies": {
-    "incr-regex-package": "^1.0.2"
-  },
+  "dependencies": {},
   "peerDependencies": {
+    "incr-regex-package": ">=1",
     "react": ">=15",
     "react-dom": ">=15",
-    "react-bootstrap": "^1.0.0-beta.16"
+    "react-bootstrap": ">=1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.7.4",
-    "@babel/core": "^7.7.4",
-    "@babel/plugin-transform-react-jsx": "^7.7.4",
-    "@babel/preset-env": "^7.7.4",
-    "@babel/preset-react": "^7.7.4",
-    "@babel/register": "^7.7.4",
-    "babel-loader": "^8.0.6",
-    "clean-webpack-plugin": "^3.0.0",
+    "@babel/cli": ">=7.7",
+    "@babel/core": ">=7.7",
+    "@babel/plugin-transform-react-jsx": ">=7.7",
+    "@babel/preset-env": ">=7.7",
+    "@babel/preset-react": ">=7.7",
+    "@babel/register": ">=7.7",
+    "babel-loader": ">=8",
+    "clean-webpack-plugin": ">=3",
     "except": "^0.1.3",
-    "react": "^16.12.0",
-    "react-bootstrap": "^1.0.0-beta.16",
+    "incr-regex-package": ">=1",
+    "react": ">=15",
+    "react-bootstrap": ">=1.0.0-beta.16",
     "react-dom": "^16.12.0",
     "shelljs": "^0.8.3",
+    "shx": "^0.3.2",
     "terser-webpack-plugin": "^2.3.0",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10"
+    "webpack": ">=4",
+    "webpack-cli": ">=3"
   },
   "author": "Nurul Choudhury",
   "license": "ISC",
